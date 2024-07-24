@@ -14,3 +14,20 @@ input[type="tel"] {
     width: 180px;
     font-weight: 400;
 }
+body {
+    font-family: Arial, sans-serif;
+}
+.bus-info {
+    margin-bottom: 20px;
+}
+.bus-info h2 {
+    margin: 0;
+    padding: 0;
+}
+.bus-info ul {
+    list-style-type: none;
+    padding: 0;
+}
+.bus-info li {
+    margin: 5px 0;
+}
