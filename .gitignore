@@ -23,3 +23,34 @@
 /app/Config/core.php
 /app/Config/database.php
 /vendors/*
+
+/phpunit.xml
+/phpunit.xml.dist
+
+/composer.lock
+/composer.phar
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# System-specific files
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+
+# Temp files
+tmp/
+cache/
