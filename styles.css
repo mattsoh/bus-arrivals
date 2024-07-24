@@ -2,8 +2,9 @@
     color: red;
     font-size: 0.9em;
 }
-input[type="text"] {
+input[type="submit"] {
     font-size: 1.2em;
     padding: 10px;
-    width: 150px;
+    width: 260px;
+    font-weight: 900;
 }
