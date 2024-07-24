@@ -8,3 +8,9 @@ input[type="submit"] {
     width: 260px;
     font-weight: 900;
 }
+input[type="tel"] {
+    font-size: 1em;
+    padding: 10px;
+    width: 180px;
+    font-weight: 400;
+}

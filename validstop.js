@@ -8,6 +8,7 @@ document.getElementById('busStopForm').addEventListener('submit', function(event
     } else {
         event.preventDefault();
         errorMessage.style.display = "block";
+        console.log("error!")
     }
 
     // Check if the value is exactly 5 digits
