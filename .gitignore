@@ -1,6 +1,6 @@
 # CakePHP 3
 
-/vendor/*
+/vendor/
 /config/app.php
 
 /tmp/cache/models/*
@@ -17,7 +17,6 @@
 /logs/*
 !/logs/empty
 
-# CakePHP 2
 
 /app/tmp/*
 /app/Config/core.php
@@ -30,27 +29,22 @@
 /composer.lock
 /composer.phar
 
-# Logs
 *.log
 
-# OS-specific files
 .DS_Store
 Thumbs.db
 
-# IDE-specific files
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
 
-# System-specific files
+
 *.swp
 *.swo
 
-# Environment files
 .env
 .env.local
 
-# Temp files
 tmp/
 cache/
