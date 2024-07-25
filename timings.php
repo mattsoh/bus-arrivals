@@ -9,7 +9,7 @@
                 ? "Stop " . htmlspecialchars($busStopCode) . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
-            echo "Bus Arrival Information";
+            echo "Invalid request";
         }
         ?>
     </title>
@@ -21,14 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $busStopCode = trim($_POST['busStopCode']);
 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
-        echo "<h1>Bus Stop Code: " . htmlspecialchars($busStopCode) . "</h1>";
+        echo "Stop " . htmlspecialchars($busStopCode) . "</h1>";
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=' . $busStopCode,
+            CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode='.$busStopCode,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array('AccountKey: ' . getenv("API_KEY")),
-        ));
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+              'AccountKey: vDwU2kHERveeJzNNtB/7bw=='
+            ),
+          ));
 
         $response = curl_exec($curl);
         curl_close($curl);
@@ -36,29 +44,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = json_decode($response, true);
 
         if (!empty($data['Services'])) {
+            echo "<table>";
+            echo "<tr>
+                    <th>Service Number</th>
+                    <th>Operator</th>
+                    <th>Next Bus Estimated Arrival</th>
+                    <th>Next Bus Load</th>
+                    <th>Next Bus Feature</th>
+                    <th>Next Bus Type</th>
+                    <th>Next Bus 2 Estimated Arrival</th>
+                    <th>Next Bus 2 Load</th>
+                    <th>Next Bus 2 Feature</th>
+                    <th>Next Bus 2 Type</th>
+                    <th>Next Bus 3 Estimated Arrival</th>
+                    <th>Next Bus 3 Load</th>
+                    <th>Next Bus 3 Feature</th>
+                    <th>Next Bus 3 Type</th>
+                  </tr>";
             foreach ($data['Services'] as $service) {
-                echo "<div class='bus-info'>";
-                echo "<h2>Service Code: " . htmlspecialchars($service['ServiceNo']) . "</h2>";
-                echo "<ul>";
-                echo "<li>Operator: " . htmlspecialchars($service['Operator']) . "</li>";
-
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
+                echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
                 foreach (['NextBus', 'NextBus2', 'NextBus3'] as $nextBus) {
-                    if (!empty($service[$nextBus]['EstimatedArrival'])) {
-                        echo "<li>" . ($nextBus === 'NextBus' ? 'Next Bus' : ($nextBus === 'NextBus2' ? 'Next Bus 2' : 'Next Bus 3')) . ":</li>";
-                        echo "<ul>";
-                        echo "<li>Estimated Arrival: " . htmlspecialchars($service[$nextBus]['EstimatedArrival']) . "</li>";
-                        echo "<li>Load: " . htmlspecialchars($service[$nextBus]['Load']) . "</li>";
-                        echo "<li>Feature: " . htmlspecialchars($service[$nextBus]['Feature']) . "</li>";
-                        echo "<li>Type: " . htmlspecialchars($service[$nextBus]['Type']) . "</li>";
-                        echo "</ul>";
-                    }
+                    echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']). "</td>";
+                    echo "<td>" . htmlspecialchars($service[$nextBus]['Load']). "</td>";
+                    echo "<td>" . htmlspecialchars($service[$nextBus]['Feature']) . "</td>";
+                    echo "<td>" . htmlspecialchars($service[$nextBus]['Type']) . "</td>";
                 }
-
-                echo "</ul>";
-                echo "</div>";
+                echo "</tr>";
             }
+            echo "</table>";
         } else {
-            echo "<h2>No bus services found at this bus stop. Check the bus stop </h2>";
+            echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
         }
     } else {
         echo "<h1>Invalid bus stop code. Please enter a valid code.</h1>";

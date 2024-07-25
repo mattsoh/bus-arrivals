@@ -1,5 +1,5 @@
 document.getElementById('busStopForm').addEventListener('submit', function(event) {
-    const input = document.getElementById('busStopNumber');
+    const input = document.getElementById('busStopCode');
     const errorMessage = document.getElementById('error-message');
     
     const value = input.value;
