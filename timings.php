@@ -71,10 +71,14 @@
                 echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
                 echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
                 foreach (['NextBus', 'NextBus2'] as $nextBus) {
-                    echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']). "</td>";
-                    $load = htmlspecialchars($service[$nextBus]['Load']). "</td>";
-                    $feature = htmlspecialchars($service[$nextBus]['Feature']) . "</td>";
-                    $type = htmlspecialchars($service[$nextBus]['Type']) . "</td>";
+                    echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']);
+                    if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB"){
+                        echo "♿";
+                    }
+                    $load = htmlspecialchars($service[$nextBus]['Load']);
+                    
+                    $type = htmlspecialchars($service[$nextBus]['Type']);
+                     "</td>"
                 }
                 echo "</tr>";
             }
