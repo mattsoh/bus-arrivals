@@ -13,7 +13,12 @@
         }
         ?>
     </title>
-    <link rel="stylesheet" href="styles.css"> 
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    </style>
+    <!-- <link rel="stylesheet" href="styles.css">  -->
 </head>
 <body>
     <h1><?php
