@@ -1,3 +1,4 @@
+<?php
 <!doctype html>
 <html>
 <head>
@@ -31,9 +32,8 @@
         exit();
     }
     ?></h1>
+    <h3><?php echo "key".getenv("API_KEY");?></h3>
     <?php
-        list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-        putenv("$key=$value");
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode='.$busStopCode,
@@ -51,9 +51,7 @@
 
         $data = json_decode($response, true);
 
-        if (empty($data['Services'])) {
-            echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
-        }else{
+        if (!empty($data['Services'])) {
             echo "<table>";
             echo "<tr>
                     <th>Service Number</th>
@@ -84,7 +82,9 @@
                 echo "</tr>";
             }
             echo "</table>";
-        } 
+        } else {
+            echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
+        }
     ?>
 </body>
 </html>
