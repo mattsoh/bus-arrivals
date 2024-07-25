@@ -63,28 +63,18 @@
             echo "<tr>
                     <th>Service Number</th>
                     <th>Operator</th>
-                    <th>Next Bus Estimated Arrival</th>
-                    <th>Next Bus Load</th>
-                    <th>Next Bus Feature</th>
-                    <th>Next Bus Type</th>
-                    <th>Next Bus 2 Estimated Arrival</th>
-                    <th>Next Bus 2 Load</th>
-                    <th>Next Bus 2 Feature</th>
-                    <th>Next Bus 2 Type</th>
-                    <th>Next Bus 3 Estimated Arrival</th>
-                    <th>Next Bus 3 Load</th>
-                    <th>Next Bus 3 Feature</th>
-                    <th>Next Bus 3 Type</th>
+                    <th>Arrival</th>
+                    <th>Next</th>
                 </tr>";
-            foreach ($data['Services'] as $service) {
+            foreach ($data['Services'] as $service) { 
                 echo "<tr>";
                 echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
                 echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
-                foreach (['NextBus', 'NextBus2', 'NextBus3'] as $nextBus) {
+                foreach (['NextBus', 'NextBus2'] as $nextBus) {
                     echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']). "</td>";
-                    echo "<td>" . htmlspecialchars($service[$nextBus]['Load']). "</td>";
-                    echo "<td>" . htmlspecialchars($service[$nextBus]['Feature']) . "</td>";
-                    echo "<td>" . htmlspecialchars($service[$nextBus]['Type']) . "</td>";
+                    $load = htmlspecialchars($service[$nextBus]['Load']). "</td>";
+                    $feature = htmlspecialchars($service[$nextBus]['Feature']) . "</td>";
+                    $type = htmlspecialchars($service[$nextBus]['Type']) . "</td>";
                 }
                 echo "</tr>";
             }

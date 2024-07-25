@@ -52,22 +52,22 @@ input[type="submit"]:hover {
 .error {
     color: #d9534f;
     font-size: 0.9em;
-    display: none; /* Hidden by default, shown on error */
-    margin-top: 5px; /* Space between the input and error message */
-    margin-bottom: 5px; /* Space between the error message and submit button */
+    display: none;
+    margin-top: 5px;
+    margin-bottom: 5px; 
     text-align: left;
     padding: 5px 10px;
     border: 1px solid #d9534f;
     border-radius: 5px;
-    background-color: #f2dede; /* Light red background */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Light shadow for emphasis */
+    background-color: #f2dede;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .input-error {
-    border-color: #d9534f; /* Red border for error */
-    background-color: #f2dede; /* Light red background */
+    border-color: #d9534f;
+    background-color: #f2dede; 
 }
 .flash {
-    animation: flash-animation 0.5s ease;
+    animation: flash-animation 0.3s ease;
 }
 @keyframes flash-animation {
     0% { background-color: #007BFF; }
