@@ -3,77 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Stop Arrival Times</title>
+    <title>SG Bus Arrival</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
         }
         .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
             padding: 20px;
-            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
             max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
         }
         h1 {
-            font-size: 24px;
+            color: #333;
             margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
         }
         label {
             display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            color: #555;
         }
-        input[type="text"] {
+        input[type="tel"], input[type="submit"] {
             width: 100%;
             padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s;
         }
-        button {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
-        button:hover {
+        input[type="submit"]:hover {
             background-color: #0056b3;
         }
         .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
+            color: #d9534f; /* Bootstrap danger color */
+            font-size: 0.9em;
+            display: none; /* Hidden by default, shown on error */
+            margin-top: 5px; /* Space between the input and error message */
+            margin-bottom: 5px; /* Space between the error message and submit button */
+            text-align: left;
+            padding: 5px 10px;
+            border: 1px solid #d9534f;
+            border-radius: 5px;
+            background-color: #f2dede; /* Light red background */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Light shadow for emphasis */
+        }
+        .input-error {
+            border-color: #d9534f; /* Red border for error */
+            background-color: #f2dede; /* Light red background */
+        }
+        .flash {
+            animation: flash-animation 0.5s ease;
+        }
+        @keyframes flash-animation {
+            0% { background-color: #007BFF; }
+            50% { background-color: #ffdddd; }
+            100% { background-color: #007BFF; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Check Bus Arrival Times</h1>
-        <form method="post" action="timings.php">
-            <div class="form-group">
-                <label for="busStopNumber">Bus Stop Number</label>
-                <input type="text" id="busStopNumber" name="busStopNumber" placeholder="Enter Bus Stop Number" required>
-                <!-- Display error message here if needed -->
-                <div class="error" id="error-message"></div>
-            </div>
-            <button type="submit">Check Arrival Times</button>
+        <h1>Find your bus arrival time!</h1>
+        <form action="timings.php" id="busStopForm" method="post">
+            <label for="busStopCode">Bus Stop Code:</label>
+            <input type="tel" id="busStopCode" name="busStopCode" maxlength="5" autocomplete="off" placeholder="bus no. goes here!">
+            <span id="error-message" class="error">Error! Please enter a 5-digit code.</span>
+            <input type="submit" value="Get arrival times!" id="submit-button">
         </form>
     </div>
     <script src="validstop.js"></script>
