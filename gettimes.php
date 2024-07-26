@@ -46,9 +46,12 @@ function timings($busStopCode) {
         }
         ksort($services);
 <<<<<<< HEAD
+<<<<<<< HEAD
         ksort($services);
 =======
 >>>>>>> cc23f64 (adding getStop [name] feature)
+=======
+>>>>>>> e48915342e5f683e890183e5849fdb168483802a
     }
     
     return $services;
@@ -76,7 +79,11 @@ function getStop($stop){
     return $response;
     $schStop = NAN;
     while ($schStop != $stop){
+<<<<<<< HEAD
         // Binary sch
+=======
+        
+>>>>>>> e48915342e5f683e890183e5849fdb168483802a
     }
 }
 $services = ref("11111");
