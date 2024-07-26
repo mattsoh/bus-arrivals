@@ -74,7 +74,7 @@ function getStop($stop){
         // Binary sch
     }
 }
-$services = ref("11111");
+// $services = timings("11111");
 // header('Content-Type: application/json');
-echo json_encode($services);
+// echo json_encode($services);
 ?>
