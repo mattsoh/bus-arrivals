@@ -15,24 +15,6 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles2.css">
-    <style>
-        .wobble {
-            animation: wobble 1s infinite;
-        }
-        @keyframes wobble {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-            100% { transform: translateX(0); }
-        }
-        .accessible {
-            color: green;
-        }
-        .extended {
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <div>
@@ -78,12 +60,13 @@
                         foreach (['NextBus', 'NextBus2'] as $nextBus) {
                             // $timeRemaining = isset($service[$nextBus]['TimeRemaining'])
                             //     ? htmlspecialchars($service[$nextBus]['TimeRemaining'])
-                            //     : 'No data';
+                            //     : 'No data'; 
                             if (empty($service[$nextBus])){
                                 echo "<td></td>";
                             }else{
                                 $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
                                 echo "<td>";
+                                echo $service[$nextBus]['TimeRemaining'][0] ;
                                 echo "<span class='arrival-time'>" . $service[$nextBus]['TimeRemaining'][0]  . "mins".$service[$nextBus]['TimeRemaining'][1]."</span>";
                                 echo "<span class='accessible' style='display: $accessibility;'>♿</span>";
                                 echo "<div class='extended'>";

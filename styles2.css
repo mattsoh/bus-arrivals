@@ -138,9 +138,9 @@ input:checked + .slider:before {
     75% { transform: translateX(-10px); }
     100% { transform: translateX(0); }
 }
-.accessible {
+/* .accessible {
     color: green;
-}
-.extended {
+} */
+/* .extended {
     display: none;
-}
+} */
