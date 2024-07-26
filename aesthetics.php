@@ -31,6 +31,11 @@
             font-size: 2em;
             margin-bottom: 20px;
             color: #444;
+            text-align: center;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
         }
         table {
             width: 100%;
@@ -43,6 +48,7 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            white-space: nowrap;
         }
         th {
             background-color: #f2f2f2;
@@ -102,6 +108,42 @@
         .extended {
             display: none;
         }
+        .wobble {
+            animation: wobble 0.5s infinite;
+        }
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 8px;
+            }
+            .sliderContainer {
+                flex-direction: column;
+            }
+            .switch {
+                width: 30px;
+                height: 15px;
+            }
+            .slider:before {
+                width: 11px;
+                height: 11px;
+                transform: translateX(0);
+            }
+            input:checked + .slider:before {
+                transform: translateX(15px);
+            }
+        }
     </style>
     <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
@@ -129,59 +171,73 @@
                 <span class="slider"></span>
             </label>
         </div>
-        <?php
-            list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-            putenv("$key=$value");
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode='.$busStopCode,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array('AccountKey: ' . getenv("API_KEY")),
-            ));
-            $response = curl_exec($curl);
-            curl_close($curl);
+        <div class="table-container">
+            <?php
+                list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
+                putenv("$key=$value");
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode='.$busStopCode,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array('AccountKey: ' . getenv("API_KEY")),
+                ));
+                $response = curl_exec($curl);
+                curl_close($curl);
 
-            $data = json_decode($response, true);
+                $data = json_decode($response, true);
 
-            if (empty($data['Services'])) {
-                echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
-            } else {
-                echo "<table>";
-                echo "<tr>
-                        <th>Service Number</th>
-                        <th>Operator</th>
-                        <th>Arrival</th>
-                        <th>Next</th>
-                    </tr>";
-                foreach ($data['Services'] as $service) { 
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
-                    echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
-                    foreach (['NextBus', 'NextBus2'] as $nextBus) {
-                        echo "<td>";
-                        echo htmlspecialchars($service[$nextBus]['EstimatedArrival']);
-                        if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB") {
-                            echo " <span class='accessible'>♿</span>";
+                if (empty($data['Services'])) {
+                    echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
+                } else {
+                    // Sort the services array by ServiceNo
+                    usort($data['Services'], function($a, $b) {
+                        return strcmp($a['ServiceNo'], $b['ServiceNo']);
+                    });
+
+                    echo "<table>";
+                    echo "<tr>
+                            <th>Service Number</th>
+                            <th>Operator</th>
+                            <th>Arrival</th>
+                            <th>Next</th>
+                        </tr>";
+                    foreach ($data['Services'] as $service) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
+                        echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
+                        foreach (['NextBus', 'NextBus2'] as $nextBus) {
+                            $arrivalTime = new DateTime($service[$nextBus]['EstimatedArrival']);
+                            $currentTime = new DateTime();
+                            $interval = $currentTime->diff($arrivalTime);
+                            $timeRemaining = $interval->format('%i mins %s');
+
+                            $wobbleClass = ($interval->i == 0 && $interval->s <= 30) ? 'wobble' : '';
+
+                            echo "<td class='$wobbleClass'>";
+                            echo $timeRemaining;
+                            if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB") {
+                                echo " <span class='accessible'>♿</span>";
+                            }
+                            echo "<div class='extended'>";
+                            echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
+                            echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
+                            echo "</div></td>";
                         }
-                        echo "<div class='extended'>";
-                        echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
-                        echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
-                        echo "</div></td>"; 
+                        echo "</tr>";
                     }
-                    echo "</tr>";
+                    echo "</table>";
                 }
-                echo "</table>";
-            } 
-        ?>
+            ?>
+        </div>
     </div>
     <script>
-        function toggleExtendedInfo() {
+        function toggleExtendedInfo() { 
             var checkbox = document.getElementById('infoSlider');
             var extendedInfo = document.querySelectorAll('.extended');
             for (var i = 0; i < extendedInfo.length; i++) {
