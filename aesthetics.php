@@ -106,8 +106,15 @@
             arrivalTimes.forEach(function(span) {
                 var estimatedArrival = new Date(span.getAttribute('data-estimated-arrival'));
                 var diff = estimatedArrival - now;
-                var minutes = Math.floor(diff / 60000);
-                var seconds = Math.floor((diff % 60000) / 1000);
+                if (diff < 0){
+                    var minutes = 0;
+                    var seconds = 0;
+                    span.textContent = 'Arriving '
+                }else{
+                    var minutes = Math.floor(diff / 60000);
+                    var seconds = Math.floor((diff % 60000) / 1000);
+                }
+                
                 span.textContent = minutes + ' mins' + seconds; // Secs are here for now
                 if (minutes === 0 && seconds <= 30) {
                     span.classList.add('wobble');
