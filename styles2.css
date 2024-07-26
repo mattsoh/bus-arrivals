@@ -128,3 +128,19 @@ input:checked + .slider:before {
         transform: translateX(15px);
     }
 }
+.wobble {
+    animation: wobble 1s infinite;
+}
+@keyframes wobble {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+.accessible {
+    color: green;
+}
+.extended {
+    display: none;
+}
