@@ -13,77 +13,93 @@
         }
         ?>
     </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles2.css">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
+        .wobble {
+            animation: wobble 1s infinite;
+        }
+        @keyframes wobble {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .accessible {
+            color: green;
+        }
+        .extended {
+            display: none;
+        }
     </style>
-    <!-- <link rel="stylesheet" href="styles.css">  -->
 </head>
 <body>
-    <h1><?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $busStopCode = trim($_POST['busStopCode']);
-
-        if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
-            echo "Stop " . htmlspecialchars($busStopCode);
+    <div>
+        <h1><?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $busStopCode = trim($_POST['busStopCode']);
+            if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
+                echo "Stop " . htmlspecialchars($busStopCode);
+            } else {
+                echo "Invalid bus stop code. Please enter a valid code.";
+                exit();
+            }
         } else {
-            echo "Invalid bus stop code. Please enter a valid code.";
+            echo "Invalid request method.";
             exit();
         }
-    } else {
-        echo "Invalid request method.";
-        exit();
-    }
-    ?></h1>
-    <?php
-        list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-        putenv("$key=$value");
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode='.$busStopCode,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array('AccountKey: ' . getenv("API_KEY")),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        $data = json_decode($response, true);
-
-        if (empty($data['Services'])) {
-            echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
-        }else{
-            echo "<table>";
-            echo "<tr>
-                    <th>Service Number</th>
-                    <th>Operator</th>
-                    <th>Arrival</th>
-                    <th>Next</th>
-                </tr>";
-            foreach ($data['Services'] as $service) { 
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
-                echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
-                foreach (['NextBus', 'NextBus2'] as $nextBus) {
-                    echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']);
-                    if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB") {
-                        echo "♿";
+        ?></h1>
+        <div class="sliderContainer">
+            <label for="infoSlider">Show Extended Information: </label>
+            <label class="switch">
+                <input type="checkbox" id="infoSlider" onchange="toggleExtendedInfo()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="table-container">
+            <?php
+                include 'gettimes.php';
+                $services = timings($busStopCode);
+                if (empty($services)) {
+                    echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
+                } else {
+                    echo "<table id='busTable'>";
+                    echo "<tr>
+                            <th>Service Number</th>
+                            <th>Operator</th>
+                            <th>Next Bus</th>
+                            <th>Next Bus 2</th>
+                        </tr>";
+                    foreach ($services as $serviceNumber => $service) {
+                        echo "<tr data-service='" . json_encode($service) . "'>";
+                        echo "<td>" . htmlspecialchars($serviceNumber) . "</td>";
+                        echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
+                        foreach (['NextBus', 'NextBus2'] as $nextBus) {
+                            // $timeRemaining = isset($service[$nextBus]['TimeRemaining'])
+                            //     ? htmlspecialchars($service[$nextBus]['TimeRemaining'])
+                            //     : 'No data';
+                            if (empty($service[$nextBus])){
+                                echo "<td></td>";
+                            }else{
+                                $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
+                                echo "<td>";
+                                echo "<span class='arrival-time'>" . $service[$nextBus]['TimeRemaining'][0]  . "mins".$service[$nextBus]['TimeRemaining'][1]."</span>";
+                                echo "<span class='accessible' style='display: $accessibility;'>♿</span>";
+                                echo "<div class='extended'>";
+                                echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
+                                echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
+                                echo "</div></td>";
+                            }
+                            
+                        }
+                        echo "</tr>";
                     }
-                    $load = htmlspecialchars($service[$nextBus]['Load']);
-                    
-                    $type = htmlspecialchars($service[$nextBus]['Type']);
-                    echo "</td>"; 
+                    echo "</table>";
                 }
-                echo "</tr>";
-            }
-            echo "</table>";
-        } 
-    ?>
+            ?>
+        </div>
+    </div>
+    <script src="update.js"></script>
 </body>
 </html>
