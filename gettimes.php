@@ -1,8 +1,13 @@
 <?php
-function ref($busStopCode){
+function ref($busStopCode) {
+    $services = [];
+    
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
+        // Load environment variables
         list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
         putenv("$key=$value");
+
+        // Initialize cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=' . $busStopCode,
@@ -18,15 +23,48 @@ function ref($busStopCode){
         $response_data = curl_exec($curl);
         curl_close($curl);
 
+        // Decode the JSON response
         $data = json_decode($response_data, true);
+
+        // Check if services data exists
         if (!empty($data['Services'])) {
-            usort($data['Services'], function($a, $b) {
-                return strcmp($a['ServiceNo'], $b['ServiceNo']);
-            });
+            foreach ($data['Services'] as &$service) {
+                foreach (['NextBus', 'NextBus2'] as $nextBus) {
+                    if (!empty($service[$nextBus]['EstimatedArrival'])) {
+                        $estimatedArrival = new DateTime($service[$nextBus]['EstimatedArrival']);
+                        $now = new DateTime();
+                        $interval = $now->diff($estimatedArrival);
+
+                        // Set TimeRemaining as an array with minutes and seconds
+                        $service[$nextBus]['TimeRemaining'] = [$interval->i,$interval->s];
+
+                        // Remove unnecessary fields
+                        unset($service[$nextBus]['OriginCode']);
+                        unset($service[$nextBus]['DestinationCode']);
+                        unset($service[$nextBus]['EstimatedArrival']);
+                        unset($service[$nextBus]['Latitude']);
+                        unset($service[$nextBus]['Longitude']);
+                        unset($service[$nextBus]['VisitNumber']);
+                    } else {
+                        // If no arrival data, set to an empty dictionary
+                        $service[$nextBus] = [];
+                    }
+                }
+                unset($service['NextBus3']);
+                $serviceNo = $service['ServiceNo'];
+                unset($service['ServiceNo']);
+                $services[$serviceNo] = $service;
+            }
         }
     }
-    return $data['Services'];
-    }
-// }
-ref("11111");
-?> 
+    
+    return $services;
+}
+
+// Example call to ref function
+$services = ref("11109");
+header('Content-Type: application/json');
+
+// Output an empty dictionary if no data is available
+echo json_encode($services ?: []);
+?>
