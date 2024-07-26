@@ -7,16 +7,13 @@ document.getElementById('busStopForm').addEventListener('submit', function(event
     if (/^\d{5}$/.test(value)) {
         errorMessage.style.display = "none"; 
         input.classList.remove('input-error');
-        submitButton.classList.remove('flash'); // Remove flash effect if validation passes
+        submitButton.classList.remove('flash');
     } else {
         event.preventDefault();
         errorMessage.style.display = "block";
         errorMessage.textContent = "Error! Please enter a 5-digit code.";
         input.classList.add('input-error');
-        
-        // Reset the animation
         submitButton.classList.remove('flash');
-        void submitButton.offsetWidth; // Trigger reflow
         submitButton.classList.add('flash');
     }
 });
