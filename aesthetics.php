@@ -76,8 +76,13 @@
                         echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
                         echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
                         foreach (['NextBus', 'NextBus2'] as $nextBus) {
+                            $estimatedArrival = htmlspecialchars($service[$nextBus]['EstimatedArrival']);
                             echo "<td>";
-                            echo "<span class='arrival-time' data-estimated-arrival='" . htmlspecialchars($service[$nextBus]['EstimatedArrival']) . "'></span>";
+                            if (empty($estimatedArrival)) {
+                                echo "<span class='arrival-time no-data'></span>";
+                            } else {
+                                echo "<span class='arrival-time' data-estimated-arrival='" . $estimatedArrival . "'></span>";
+                            }
                             echo "<span class='accessible' style='display: " . (htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none") . "'>♿</span>";
                             echo "<div class='extended'>";
                             echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
@@ -91,41 +96,6 @@
             ?>
         </div>
     </div>
-    <script>
-        function toggleExtendedInfo() { 
-            var checkbox = document.getElementById('infoSlider');
-            var extendedInfo = document.querySelectorAll('.extended');
-            for (var i = 0; i < extendedInfo.length; i++) {
-                extendedInfo[i].style.display = checkbox.checked ? 'block' : 'none';
-            }
-        }
-
-        function updateArrivalTimes() {
-            var now = new Date();
-            var arrivalTimes = document.querySelectorAll('.arrival-time');
-            arrivalTimes.forEach(function(span) {
-                var estimatedArrival = new Date(span.getAttribute('data-estimated-arrival'));
-                var diff = estimatedArrival - now;
-                if (diff < 0){
-                    var minutes = 0;
-                    var seconds = 0;
-                    span.textContent = 'Arriving '
-                }else{
-                    var minutes = Math.floor(diff / 60000);
-                    var seconds = Math.floor((diff % 60000) / 1000);
-                }
-                
-                span.textContent = minutes + ' mins' + seconds; // Secs are here for now
-                if (minutes === 0 && seconds <= 30) {
-                    span.classList.add('wobble');
-                } else {
-                    span.classList.remove('wobble');
-                }
-            });
-        }
-
-        setInterval(updateArrivalTimes, 1000);
-        updateArrivalTimes();
-    </script>
+    <script src="update.js"></script>
 </body>
 </html>
