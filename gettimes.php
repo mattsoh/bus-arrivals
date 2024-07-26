@@ -45,7 +45,10 @@ function timings($busStopCode) {
             }
         }
         ksort($services);
+<<<<<<< HEAD
         ksort($services);
+=======
+>>>>>>> cc23f64 (adding getStop [name] feature)
     }
     
     return $services;
