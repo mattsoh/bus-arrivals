@@ -1,32 +1,25 @@
 <?php
-function ref($busStopCode) {
-    $services = [];
-    
+list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
+putenv("$key=$value");
+function timings($busStopCode) {
+    $services = []; 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
-        // Load environment variables
-        list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-        putenv("$key=$value");
-
-        // Initialize cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=' . $busStopCode,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
+            // CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array('AccountKey: ' . getenv("API_KEY")),
         ));
         $response_data = curl_exec($curl);
         curl_close($curl);
-
-        // Decode the JSON response
         $data = json_decode($response_data, true);
 
-        // Check if services data exists
         if (!empty($data['Services'])) {
             foreach ($data['Services'] as &$service) {
                 foreach (['NextBus', 'NextBus2'] as $nextBus) {
@@ -34,11 +27,7 @@ function ref($busStopCode) {
                         $estimatedArrival = new DateTime($service[$nextBus]['EstimatedArrival']);
                         $now = new DateTime();
                         $interval = $now->diff($estimatedArrival);
-
-                        // Set TimeRemaining as an array with minutes and seconds
                         $service[$nextBus]['TimeRemaining'] = [$interval->i,$interval->s];
-
-                        // Remove unnecessary fields
                         unset($service[$nextBus]['OriginCode']);
                         unset($service[$nextBus]['DestinationCode']);
                         unset($service[$nextBus]['EstimatedArrival']);
@@ -46,7 +35,6 @@ function ref($busStopCode) {
                         unset($service[$nextBus]['Longitude']);
                         unset($service[$nextBus]['VisitNumber']);
                     } else {
-                        // If no arrival data, set to an empty dictionary
                         $service[$nextBus] = [];
                     }
                 }
@@ -56,15 +44,38 @@ function ref($busStopCode) {
                 $services[$serviceNo] = $service;
             }
         }
+        ksort($services);
     }
     
     return $services;
 }
 
-// Example call to ref function
-$services = ref("11109");
-header('Content-Type: application/json');
+function getStop($stop){
 
-// Output an empty dictionary if no data is available
-echo json_encode($services ?: []);
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array('AccountKey: '. getenv(API_KEY)),
+    ));
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    $data = json_decode($response_data, true);
+    return $response;
+    $schStop = NAN;
+    while ($schStop != $stop){
+        
+    }
+}
+$services = ref("11111");
+// header('Content-Type: application/json');
+echo json_encode($services);
 ?>
