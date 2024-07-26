@@ -76,7 +76,7 @@ function getStop($stop){
     return $response;
     $schStop = NAN;
     while ($schStop != $stop){
-        
+        // Binary sch
     }
 }
 $services = ref("11111");
