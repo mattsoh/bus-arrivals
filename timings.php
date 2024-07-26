@@ -72,13 +72,13 @@
                 echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
                 foreach (['NextBus', 'NextBus2'] as $nextBus) {
                     echo "<td>" . htmlspecialchars($service[$nextBus]['EstimatedArrival']);
-                    if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB"){
+                    if (htmlspecialchars($service[$nextBus]['Feature']) == "WAB") {
                         echo "♿";
                     }
                     $load = htmlspecialchars($service[$nextBus]['Load']);
                     
                     $type = htmlspecialchars($service[$nextBus]['Type']);
-                     "</td>"
+                    echo "</td>"; 
                 }
                 echo "</tr>";
             }
