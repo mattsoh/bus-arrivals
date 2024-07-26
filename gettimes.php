@@ -47,11 +47,12 @@ function ref($busStopCode) {
                 $services[$serviceNo] = $service;
             }
         }
+        ksort($services);
     }
     
     return $services;
 }
-// $services = ref("11109");
+$services = ref("11111");
 // header('Content-Type: application/json');
-// echo json_encode($services ?: []);
+// echo json_encode($services);
 ?>

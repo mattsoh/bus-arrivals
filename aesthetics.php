@@ -68,26 +68,30 @@
                     echo "<tr>
                             <th>Service Number</th>
                             <th>Operator</th>
-                            <th>Arrival</th>
-                            <th>Next</th>
+                            <th>Next Bus</th>
+                            <th>Next Bus 2</th>
                         </tr>";
-                    foreach ($services as $service) {
+                    foreach ($services as $serviceNumber => $service) {
                         echo "<tr data-service='" . json_encode($service) . "'>";
-                        echo "<td>" . htmlspecialchars($service['ServiceNo']) . "</td>";
+                        echo "<td>" . htmlspecialchars($serviceNumber) . "</td>";
                         echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
                         foreach (['NextBus', 'NextBus2'] as $nextBus) {
-                            $estimatedArrival = htmlspecialchars($service[$nextBus]['EstimatedArrival']);
-                            echo "<td>";
-                            if (empty($estimatedArrival)) {
-                                echo "<span class='arrival-time no-data'></span>";
-                            } else {
-                                echo "<span class='arrival-time' data-estimated-arrival='" . $estimatedArrival . "'></span>";
+                            // $timeRemaining = isset($service[$nextBus]['TimeRemaining'])
+                            //     ? htmlspecialchars($service[$nextBus]['TimeRemaining'])
+                            //     : 'No data';
+                            if (empty($service[$nextBus])){
+                                echo "<td></td>";
+                            }else{
+                                $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
+                                echo "<td>";
+                                echo "<span class='arrival-time'>" . $service[$nextBus]['TimeRemaining'][0]  . "mins".$service[$nextBus]['TimeRemaining'][1]."</span>";
+                                echo "<span class='accessible' style='display: $accessibility;'>♿</span>";
+                                echo "<div class='extended'>";
+                                echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
+                                echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
+                                echo "</div></td>";
                             }
-                            echo "<span class='accessible' style='display: " . (htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none") . "'>♿</span>";
-                            echo "<div class='extended'>";
-                            echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
-                            echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
-                            echo "</div></td>";
+                            
                         }
                         echo "</tr>";
                     }
