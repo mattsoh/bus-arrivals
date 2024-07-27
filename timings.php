@@ -47,16 +47,17 @@
                     echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
                 } else {
                     echo "<table id='busTable'>";
-                    echo "<tr>
-                            <th>Service Number</th>
-                            <th>Operator</th>
+                    echo "<thead><tr>
+                            <th></th>
                             <th>Next Bus</th>
                             <th>Next Bus 2</th>
-                        </tr>";
+                        </tr></thead><tbody>";
                     foreach ($services as $serviceNumber => $service) {
-                        echo "<tr data-service='" . json_encode($service) . "'>";
-                        echo "<td>" . htmlspecialchars($serviceNumber) . "</td>";
-                        echo "<td>" . htmlspecialchars($service['Operator']) . "</td>";
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($serviceNumber) ;
+                        echo "<div class='extended'><br>";
+                        echo htmlspecialchars($service['Operator']);
+                        echo "</div></td>";
                         foreach (['NextBus', 'NextBus2'] as $nextBus) {
                             // $timeRemaining = isset($service[$nextBus]['TimeRemaining'])
                             //     ? htmlspecialchars($service[$nextBus]['TimeRemaining'])
@@ -66,10 +67,10 @@
                             }else{
                                 $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
                                 echo "<td>";
-                                echo $service[$nextBus]['TimeRemaining'][0] ;
                                 echo "<span class='arrival-time'>" . $service[$nextBus]['TimeRemaining'][0]  . "mins".$service[$nextBus]['TimeRemaining'][1]."</span>";
-                                echo "<span class='accessible' style='display: $accessibility;'>♿</span>";
+                                
                                 echo "<div class='extended'>";
+                                echo "<span ' style='display: $accessibility;'>♿</span>";
                                 echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
                                 echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
                                 echo "</div></td>";
@@ -78,7 +79,7 @@
                         }
                         echo "</tr>";
                     }
-                    echo "</table>";
+                    echo "</tbody></table>";
                 }
             ?>
         </div>

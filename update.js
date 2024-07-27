@@ -14,6 +14,7 @@ function updateArrivalTimes() {
         //     span.classList.remove('wobble');
             
         // }
+        seconds--;
         if (minutes === 0 && seconds <= 30) {
             span.classList.add('wobble');
         } else {
