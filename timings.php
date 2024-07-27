@@ -67,12 +67,12 @@
                             }else{
                                 $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
                                 echo "<td>";
-                                echo "<span class='arrival-time'>" . $service[$nextBus]['TimeRemaining'][0]  . "mins".$service[$nextBus]['TimeRemaining'][1]."</span>";
+                                echo "<span class='arrival-time'>" . ($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving"." </span>";
                                 
                                 echo "<div class='extended'>";
-                                echo "<span ' style='display: $accessibility;'>♿</span>";
-                                echo "Load: " . htmlspecialchars($service[$nextBus]['Load']) . "<br>";
-                                echo "Type: " . htmlspecialchars($service[$nextBus]['Type']);
+                                echo ($service[$nextBus]['Feature'] == "WAB") ? "Wheelchair Accessable<br>" : '';
+                                echo "Load: " . $service[$nextBus]['Load'] . "<br>";
+                                echo "Type: " . $service[$nextBus]['Type'];
                                 echo "</div></td>";
                             }
                             
