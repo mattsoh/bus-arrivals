@@ -2,6 +2,7 @@
 list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
 putenv("$key=$value");
 function timings($busStopCode) {
+    
     $services = []; 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
         $curl = curl_init();
@@ -63,19 +64,39 @@ function getStop($stop){
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array('AccountKey: '. getenv(API_KEY)),
+    CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
     ));
     $response = curl_exec($curl);
 
     curl_close($curl);
-    $data = json_decode($response_data, true);
-    return $response;
+    $data = json_decode($response, true);
+    return $data;
     $schStop = NAN;
+    $left = 0;
+    $right = count($data) - 1;
     while ($schStop != $stop){
-        // Binary sch
+            $left = 0;
+            $right = count($data) - 1;
+        
+            while ($left <= $right) {
+                $mid = (int)(($left + $right) / 2);
+                $midValue = $data[$mid]['BusStopCode'];
+        
+                if ($midValue == $target) {
+                    return $data[$mid];
+                } elseif ($midValue < $target) {
+                    $left = $mid + 1;
+                } else {
+                    $right = $mid - 1;
+                }
+            }
+        
+            return null; // Target not found
+        }
     }
 }
 // $services = timings("11111");
+echo json_encode(getStop(11111));
 // header('Content-Type: application/json');
 // echo json_encode($services);
 ?>
