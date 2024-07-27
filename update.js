@@ -12,6 +12,25 @@ function toggleExtendedInfo() {
 function updateArrivalTimes() {
     var arrivalTimes = document.querySelectorAll('.arrival-time');
     arrivalTimes.forEach(function(span) {
+        var secs = parseInt(span.getAttribute('secs'));
+        var mins = null;
+        secs--;
+        if (span.textContent == "Arriving"){
+            if (secs < 0){
+                secs = 0;
+            }
+            mins = 0;
+        }else{
+            var mins = span.textContent.split("mins")[0];
+            if (secs < 0){
+                secs = 59;
+                mins--;
+            }
+        }
+        span.setAttribute('secs', secs);
+        console.log(mins);
+        (mins == 0) ? span.textContent = "Arriving": span.textContent = mins + " mins" + secs;
+        
         // if (span.classList.contains('no-data')) {
         //     span.textContent = '';
         //     span.classList.remove('wobble');
@@ -27,4 +46,6 @@ function updateArrivalTimes() {
 }
 
 setInterval(updateArrivalTimes, 1000);
+// setInterval(function() {loc  ation.reload();}, 30000);
+
 updateArrivalTimes();
