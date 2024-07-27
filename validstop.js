@@ -13,7 +13,11 @@ document.getElementById('busStopForm').addEventListener('submit', function(event
         errorMessage.style.display = "block";
         errorMessage.textContent = "Error! Please enter a 5-digit code.";
         input.classList.add('input-error');
-        submitButton.classList.remove('flash');
+        
+        // Add the flash class and then remove it after a short delay
         submitButton.classList.add('flash');
+        setTimeout(() => {
+            submitButton.classList.remove('flash');
+        }, 500); // Adjust the timeout duration as needed
     }
 });
