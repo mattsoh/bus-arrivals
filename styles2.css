@@ -151,3 +151,8 @@ input:checked + .slider:before {
 .LSD {
     color: red;
 }
+.SEA.override,
+.SDA.override,
+.LSD.override {
+    color: black;
+}

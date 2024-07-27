@@ -1,17 +1,11 @@
 function toggleExtendedInfo() { 
-    var checkbox = document.getElementById('infoSlider').checked;
     var extendedInfo = document.querySelectorAll('.extended');
     var arrivalInfo = document.querySelectorAll('.arrival-time');
-    for (var i = 0; i < extendedInfo.length; i++) {
-        extendedInfo[i].style.display = checkbox.checked ? 'block' : 'none';
-        arrivalInfo[i].className
-        var classList = arrivalInfo[i].classList;
-        classList.forEach(cls => {
-            if (cls.length === 3) {
-                classList.toggle(cls, checkbox.checked);
-            }
-        });
-
+    for (var i = 0;i<extendedInfo.length; i++) {
+        extendedInfo[i].style.display = document.getElementById('infoSlider').checked ? 'block' : 'none';
+    }
+    for (var j = 0;j<arrivalInfo.length; j++){
+        arrivalInfo[j].classList.toggle("override");
     }
 }
 
@@ -23,12 +17,12 @@ function updateArrivalTimes() {
         //     span.classList.remove('wobble');
             
         // }
-        seconds--;
-        if (minutes === 0 && seconds <= 30) {
-            span.classList.add('wobble');
-        } else {
-            span.classList.remove('wobble');
-        }
+    //     seconds--;
+    //     if (minutes === 0 && seconds <= 30) {
+    //         span.classList.add('wobble');
+    //     } else {
+    //         span.classList.remove('wobble');
+    //     }
     });
 }
 

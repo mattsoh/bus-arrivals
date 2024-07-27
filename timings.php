@@ -6,7 +6,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
             echo (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5)
-                ? "Stop " . htmlspecialchars($busStopCode) . " Arrival Times"
+                ? "Stop " . $busStopCode . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
             echo "Invalid request";
@@ -22,7 +22,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
             if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
-                echo "Stop " . htmlspecialchars($busStopCode);
+                echo "Stop " . $busStopCode;
             } else {
                 echo "Invalid bus stop code. Please enter a valid code.";
                 exit();
@@ -54,15 +54,13 @@
                         </tr></thead><tbody>";
                     foreach ($services as $serviceNumber => $service) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($serviceNumber) ;
-                        echo "<div class='extended'><br>";
-                        echo htmlspecialchars($service['Operator']);
-                        echo "</div></td>";
+                        echo "<td>" . $serviceNumber;
+                        echo "<div class='extended'><br>" . $service['Operator'] . "</div></td>";
                         foreach (['NextBus', 'NextBus2'] as $nextBus) {
                             if (empty($service[$nextBus])){
                                 echo "<td></td>";
                             }else{
-                                $accessibility = htmlspecialchars($service[$nextBus]['Feature']) == "WAB" ? "inline" : "none";
+                                $accessibility = $service[$nextBus]['Feature'] == "WAB" ? "inline" : "none";
                                 echo "<td>";
                                 echo "<span class='arrival-time " . $service[$nextBus]['Load']."'>" . (($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving")." </span>";
                                 echo "<div class='extended'>";
