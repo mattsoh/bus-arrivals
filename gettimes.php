@@ -55,9 +55,8 @@ function getStop($stop){
     $count = 0;
     while (true){
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops$skip='.$count,
+        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$count,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -68,22 +67,22 @@ function getStop($stop){
         CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
         ));
         $response = curl_exec($curl);
-
         curl_close($curl);
         $count+=500;
         $data = json_decode($response, true)["value"];
+        if (empty($data)) return NULL;
         foreach ($data as $poss) {
             if ($poss["BusStopCode"] == $stop){
-                return $poss["BusStopCode"]
+                return $poss["Description"];
             }
-          }
+        }
     }
     
     // return $data;
     
 }
 // $services = timings("11111");
-echo json_encode(getStop(01012));
+// echo getStop("99189");
 // header('Content-Type: application/json');
 // echo json_encode($services);
 ?>

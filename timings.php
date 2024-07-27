@@ -3,6 +3,7 @@
 <head>
     <title>
         <?php
+        include 'gettimes.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
             echo (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5)
@@ -21,7 +22,7 @@
         <h1><?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
-            if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
+            if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL) {
                 echo "Stop " . $busStopCode;
             } else {
                 echo "Invalid bus stop code. Please enter a valid code.";
@@ -32,6 +33,14 @@
             exit();
         }
         ?></h1>
+        <h2>
+            <?php 
+                if (getStop($busStopCode) != NULL) {
+                    echo getStop($busStopCode)."<br>";
+                }
+                if (empty($services)) echo "No bus services found. ";
+            ?>
+        </h2>
         <div class="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
             <label class="switch">
@@ -41,11 +50,8 @@
         </div>
         <div class="table-container">
             <?php
-                include 'gettimes.php';
                 $services = timings($busStopCode);
-                if (empty($services)) {
-                    echo "<h2>No bus services found at this bus stop. Check the bus stop code and try again.</h2>";
-                } else {
+                if (!empty($services)){
                     echo "<table id='busTable'>";
                     echo "<thead><tr>
                             <th></th>
