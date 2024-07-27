@@ -1,8 +1,10 @@
 function toggleExtendedInfo() { 
     var checkbox = document.getElementById('infoSlider');
     var extendedInfo = document.querySelectorAll('.extended');
+    var arrivalInfo = document.querySelectorAll('.')
     for (var i = 0; i < extendedInfo.length; i++) {
         extendedInfo[i].style.display = checkbox.checked ? 'block' : 'none';
+
     }
 }
 

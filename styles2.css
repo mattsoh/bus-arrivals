@@ -43,9 +43,6 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
-.accessible {
-    color: #009688;
-}
 .sliderContainer {
     margin-bottom: 20px;
     text-align: center;
@@ -144,3 +141,13 @@ input:checked + .slider:before {
 /* .extended {
     display: none;
 } */
+.SEA {
+    color: green;
+}
+
+.SDA {
+    color: rgb(180, 180, 0);
+}
+.LSD {
+    color: red;
+}

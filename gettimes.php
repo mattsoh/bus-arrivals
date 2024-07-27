@@ -26,8 +26,9 @@ function timings($busStopCode) {
                     if (!empty($service[$nextBus]['EstimatedArrival'])) {
                         $estimatedArrival = new DateTime($service[$nextBus]['EstimatedArrival']);
                         $now = new DateTime();
+                        
                         $interval = $now->diff($estimatedArrival);
-                        $service[$nextBus]['TimeRemaining'] = [$interval->i,$interval->s];
+                        $service[$nextBus]['TimeRemaining'] = ($interval->invert) ? [0,0] : [$interval->i,$interval->s];
                         unset($service[$nextBus]['OriginCode']);
                         unset($service[$nextBus]['DestinationCode']);
                         unset($service[$nextBus]['EstimatedArrival']);
