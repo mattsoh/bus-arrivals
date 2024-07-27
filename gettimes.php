@@ -52,51 +52,38 @@ function timings($busStopCode) {
 }
 
 function getStop($stop){
+    $count = 0;
+    while (true){
+        $curl = curl_init();
 
-    $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops$skip='.$count,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
+        ));
+        $response = curl_exec($curl);
 
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
-    ));
-    $response = curl_exec($curl);
-
-    curl_close($curl);
-    $data = json_decode($response, true);
-    return $data;
-    $schStop = NAN;
-    $left = 0;
-    $right = count($data) - 1;
-    while ($schStop != $stop){
-            $left = 0;
-            $right = count($data) - 1;
-        
-            while ($left <= $right) {
-                $mid = (int)(($left + $right) / 2);
-                $midValue = $data[$mid]['BusStopCode'];
-        
-                if ($midValue == $target) {
-                    return $data[$mid];
-                } elseif ($midValue < $target) {
-                    $left = $mid + 1;
-                } else {
-                    $right = $mid - 1;
-                }
+        curl_close($curl);
+        $count+=500;
+        $data = json_decode($response, true)["value"];
+        foreach ($data as $poss) {
+            if ($poss["BusStopCode"] == $stop){
+                return $poss["BusStopCode"]
             }
-        
-            return null; // Target not found
-        }
+          }
     }
+    
+    // return $data;
+    
 }
 // $services = timings("11111");
-echo json_encode(getStop(11111));
+echo json_encode(getStop(01012));
 // header('Content-Type: application/json');
 // echo json_encode($services);
 ?>
