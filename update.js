@@ -1,9 +1,16 @@
 function toggleExtendedInfo() { 
-    var checkbox = document.getElementById('infoSlider');
+    var checkbox = document.getElementById('infoSlider').checked;
     var extendedInfo = document.querySelectorAll('.extended');
-    var arrivalInfo = document.querySelectorAll('.')
+    var arrivalInfo = document.querySelectorAll('.arrival-time');
     for (var i = 0; i < extendedInfo.length; i++) {
         extendedInfo[i].style.display = checkbox.checked ? 'block' : 'none';
+        arrivalInfo[i].className
+        var classList = arrivalInfo[i].classList;
+        classList.forEach(cls => {
+            if (cls.length === 3) {
+                classList.toggle(cls, checkbox.checked);
+            }
+        });
 
     }
 }
