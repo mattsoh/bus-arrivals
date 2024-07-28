@@ -6,7 +6,7 @@
         include 'gettimes.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
-            echo (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5)
+            echo (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL)
                 ? "Stop " . $busStopCode . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
