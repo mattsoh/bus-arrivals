@@ -1,8 +1,3 @@
-let myVariable = false;
-sessionStorage.setItem('myVariableKey', myVariable);
-
-let storedVariable = sessionStorage.getItem('myVariableKey');
-console.log(storedVariable); // outputs: someValue
 
 
 function toggleExtendedInfo() { 
@@ -35,5 +30,9 @@ function updateArrivalTimes() {
     });
 }
 
-setInterval(updateArrivalTimes, 1000);
-setInterval(function() { location.reload(); }, 30000);
+window.onload = function() {
+    setInterval(updateArrivalTimes, 1000);
+    setInterval(function() { location.reload(); }, 30000);
+    
+}
+    
