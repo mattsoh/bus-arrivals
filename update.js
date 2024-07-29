@@ -12,31 +12,30 @@ function toggleExtendedInfo() {
 function updateArrivalTimes() {
     var arrivalTimes = document.querySelectorAll('.arrival-time');
     arrivalTimes.forEach(function(span) {
+        var mins = parseInt(span.getAttribute('mins'));
         var secs = parseInt(span.getAttribute('secs'));
-        var mins = null;
         secs--;
-        if (span.textContent == "Arriving"){
-            if (secs < 0){
-                secs = 0;
-            }
-            mins = 0;
-        } else {
-            var mins = parseInt(span.textContent.split("mins")[0].trim());
-            if (isNaN(mins)) mins = 0; 
-            if (secs < 0){
-                secs = 59;
-                mins--;
-            }
+        // if (mins ){
+        //     if (secs < 0){
+        //         secs = 0;
+        //     }
+        //     mins = 0;
+        // } else { 
+        // if (isNaN(mins)) mins = 0; 
+        if (secs < 0){
+            secs = 59;
+            mins--;
         }
         span.setAttribute('secs', secs);
-        (mins == 0) ? span.textContent = "Arriving": span.textContent = mins + " mins" + secs;
+        span.setAttribute('mins', mins);
+        (mins <= 0) ? span.textContent = "Arriving": span.textContent = mins + " mins" + secs;
     });
 }
 
-// setInterval(updateArrivalTimes, 1000);
-// setInterval(function() { location.reload(); }, 30000);
+setInterval(updateArrivalTimes, 1000);
+setInterval(function() { location.reload(); }, 30000);
 
-// updateArrivalTimes();
+updateArrivalTimes();
 
 
 setInterval(updateArrivalTimes, 1000);
