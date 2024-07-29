@@ -1,3 +1,10 @@
+let myVariable = false;
+sessionStorage.setItem('myVariableKey', myVariable);
+
+let storedVariable = sessionStorage.getItem('myVariableKey');
+console.log(storedVariable); // outputs: someValue
+
+
 function toggleExtendedInfo() { 
     var extendedInfo = document.querySelectorAll('.extended');
     var arrivalInfo = document.querySelectorAll('.arrival-time');
@@ -15,16 +22,12 @@ function updateArrivalTimes() {
         var mins = parseInt(span.getAttribute('mins'));
         var secs = parseInt(span.getAttribute('secs'));
         secs--;
-        // if (mins ){
-        //     if (secs < 0){
-        //         secs = 0;
-        //     }
-        //     mins = 0;
-        // } else { 
-        // if (isNaN(mins)) mins = 0; 
         if (secs < 0){
             secs = 59;
             mins--;
+        }
+        if (mins < -1) {
+            location.reload();
         }
         span.setAttribute('secs', secs);
         span.setAttribute('mins', mins);
@@ -34,11 +37,3 @@ function updateArrivalTimes() {
 
 setInterval(updateArrivalTimes, 1000);
 setInterval(function() { location.reload(); }, 30000);
-
-updateArrivalTimes();
-
-
-setInterval(updateArrivalTimes, 1000);
-setInterval(function() {location.reload();}, 30000);
-
-updateArrivalTimes();

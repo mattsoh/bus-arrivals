@@ -6,7 +6,7 @@
         include 'gettimes.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
-            echo (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL)
+            echo (is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL)
                 ? "Stop " . $busStopCode . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
@@ -22,10 +22,11 @@
         <h1><?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $busStopCode = trim($_POST['busStopCode']);
-            if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL) {
+            if (is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL) {
                 echo "Stop " . $busStopCode;
             } else {
                 echo "Invalid bus stop code. Please enter a valid code.";
+                header("Location: /invalid.html");
                 exit();
             }
         } else {
@@ -33,14 +34,16 @@
             exit();
         }
         ?></h1>
-        <h2>
-            <?php 
+        <h2><?php 
                 if (getStop($busStopCode) != NULL) {
                     echo getStop($busStopCode)."<br>";
                 }
-                if (empty($services)) echo "No bus services found. ";
-            ?>
-        </h2>
+                
+            ?></h2>
+        <h2><?php 
+            $services = timings($busStopCode);
+            if (empty($services)) echo "No bus services found. ";
+        ?></h2>
         <div class="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
             <label class="switch">
@@ -48,9 +51,8 @@
                 <span class="slider"></span>
             </label>
         </div>
-        <div class="table-container">
+        <!-- <div class="table-container"> -->
             <?php
-                $services = timings($busStopCode);
                 if (!empty($services)){
                     echo "<table id='busTable'>";
                     echo "<thead><tr>
@@ -82,7 +84,7 @@
                     echo "</tbody></table>";
                 }
             ?>
-        </div>
+        <!-- </div> -->
     </div>
     <script src="update.js"></script>
 </body>
