@@ -1,11 +1,14 @@
-
-
+let extended = false;
 function toggleExtendedInfo() { 
+    console.log(extended,!extended,typeof(extended));
+    extended = !extended;
+    console.log("after",extended);
     var extendedInfo = document.querySelectorAll('.extended');
     var arrivalInfo = document.querySelectorAll('.arrival-time');
     for (var i = 0;i<extendedInfo.length; i++) {
         extendedInfo[i].style.display = document.getElementById('infoSlider').checked ? 'block' : 'none';
     }
+
     for (var j = 0;j<arrivalInfo.length; j++){
         arrivalInfo[j].classList.toggle("override");
     }
@@ -22,6 +25,7 @@ function updateArrivalTimes() {
             mins--;
         }
         if (mins < -1) {
+            sessionStorage.setItem('extended', extended);
             location.reload();
         }
         span.setAttribute('secs', secs);
@@ -32,7 +36,15 @@ function updateArrivalTimes() {
 
 window.onload = function() {
     setInterval(updateArrivalTimes, 1000);
-    setInterval(function() { location.reload(); }, 30000);
-    
+    setInterval(function() { location.reload(); sessionStorage.setItem('extended', extended); }, 30000);
+    extended = Boolean(sessionStorage.getItem('extended'));
+    console.log(extended);
+    if (extended == null) {
+        extended = false;
+    }else if (extended == true){
+        extended = false;
+        toggleExtendedInfo();
+    }
+    console.log(extended);
 }
     
