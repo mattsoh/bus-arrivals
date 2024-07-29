@@ -42,7 +42,7 @@
             ?></h2>
         <h2><?php 
             $services = timings($busStopCode);
-            if (empty($services)) echo "No bus services found. ";
+            if (empty($services)) echo "No bus services found.";
         ?></h2>
         <div class="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
