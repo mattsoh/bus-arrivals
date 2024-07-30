@@ -41,7 +41,7 @@ function updateArrivalTimes() {
 }
 
 window.onload = function() {
-    setInterval(updateArrivalTimes, 1000);
+    setInterval(updateArrivalTimes, 10000);
     setInterval(function() { location.reload(); localStorage.setItem('extended', extended); }, 30000);
     extended = localStorage.getItem('extended');
     extended = (extended == "true");
