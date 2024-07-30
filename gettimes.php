@@ -53,7 +53,9 @@ function timings($busStopCode) {
 
 function getStop($stop){
     $count = 0;
-    while (true){
+    $left = 0;
+    $right = 5000;
+    while ($left <= $right){
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$count,
@@ -76,7 +78,18 @@ function getStop($stop){
                 return $poss["Description"];
             }
         }
-        // function binarySearch($array, $target) {
+        
+    }
+    
+    // return $data;
+    
+}
+// $services = timings("11111");
+// echo getStop("99189");
+// header('Content-Type: application/json');
+// echo json_encode($services);
+
+// function binarySearch($array, $target) {
         //     $left = 0;
         //     $right = count($array) - 1;
         
@@ -94,13 +107,5 @@ function getStop($stop){
         
         //     return -1;
         // }
-    }
-    
-    // return $data;
-    
-}
-// $services = timings("11111");
-// echo getStop("99189");
-// header('Content-Type: application/json');
-// echo json_encode($services);
 ?>
+
