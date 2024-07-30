@@ -56,7 +56,8 @@ function getStop($stop){
     $left = 0;
     $right = 10;
     while ($left <= $right){
-        $mid = round($left+$right/2);
+        $mid = round(($left+$right)/2);
+        // echo $left . ' '.$right .' '. $mid . "\n";
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$mid*500,
@@ -71,15 +72,16 @@ function getStop($stop){
         ));
         if (curl_errno($curl)) {
             curl_close($curl);
-            return -2;
+            return -1;
         }
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response, true)["value"];
+        // echo $data[0]["BusStopCode"] . $data[count($data)-1]["BusStopCode"] . "\n";
         if (empty($data)) return -5;
         else if ($data[0]["BusStopCode"] > $stop){
             $right = $mid-1;
-        }else if ($data[count($data) - 1] < $stop){
+        }else if ($data[count($data)-1]["BusStopCode"] < $stop){
             $left = $mid+1;
         }else{
             break;
@@ -88,20 +90,18 @@ function getStop($stop){
     $left = 0;
     $right = count($data)-1;
     while ($left <= $right){
-        echo $right;
         $mid = round(($left+$right)/2);
         if ($data[$mid]["BusStopCode"] == $stop){
             return $data[$mid]["Description"];
         }else if ($left == $right){
             echo $data[$mid]["BusStopCode"];
-            return -1;
+            return NULL;
         }else if ($data[$mid]["BusStopCode"] <= $stop){
-            $right = $mid-1;
-        }else{
             $left = $mid+1;
+        }else{
+            $right = $mid-1;
         }
     }
-    return -100;
 }
 // $services = timings("11111");
 echo getStop("99189");
