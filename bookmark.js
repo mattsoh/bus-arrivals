@@ -1,17 +1,22 @@
+function update(stop) {
+    console.log(`Updating ${stop}`);
+    displayStops();
+}
+
 function saveStop(stop) {
     const stops = getStops();
     if (!stops.includes(stop)) {
         stops.push(stop);
         localStorage.setItem('stops', JSON.stringify(stops));
         update(stop);
-    }else{
-        console.log("Stop already bookmarked")
+        
+    } else {
+        console.log("Stop already bookmarked");
     }
 }
 
 function removeStop(stop) {
     const stops = getStops();
-    
     if (stops.includes(stop)) {
         const index = stops.indexOf(stop);
         stops.splice(index, 1);
@@ -21,12 +26,11 @@ function removeStop(stop) {
 }
 
 function toggleBookmark(stop) {
-    const stops = getstops();
-    
+    const stops = getStops();
     if (stops.includes(stop)) {
-        removeBookmark(stop);
+        removeStop(stop);
     } else {
-        addBookmark(stop);
+        saveStop(stop);
     }
 }
 
@@ -37,12 +41,12 @@ function getStops() {
 
 function displayStops() {
     const stops = getStops();
-    
     const container = document.getElementById('bookmarked-stops');
     container.innerHTML = '';
-    
+
     stops.forEach(stop => {
-        const stopElement = document.getElementById(stop).cloneNode(true);
+        const stopElement = document.createElement('div');
+        stopElement.textContent = stop;
         container.appendChild(stopElement);
     });
 }

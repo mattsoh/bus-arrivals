@@ -101,5 +101,6 @@
         </div>
     </div>
     <!-- <script src="update.js"></script> -->
+    <script src="bookmark.js"></script>
 </body>
 </html>
