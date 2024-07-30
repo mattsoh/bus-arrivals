@@ -13,6 +13,18 @@ body {
 }
 h1 {
     font-size: 2em;
+    margin-bottom: 10px;
+    color: #444;
+    text-align: center;
+}
+#stopName {
+    font-size: 1.5em;
+    color: #555;
+    text-align: center;
+    font-weight: 400;
+}
+h2 {
+    font-size: 1em;
     margin-bottom: 20px;
     color: #444;
     text-align: center;
@@ -43,22 +55,22 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
-.sliderContainer {
+#sliderContainer {
     margin-bottom: 20px;
-    text-align: center;
 }
-.switch {
+#switch {
     position: relative;
     display: inline-block;
     width: 40px;
     height: 20px;
+    text-align: center;
 }
-.switch input {
+#switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-.slider {
+#slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -69,7 +81,7 @@ tr:hover {
     transition: .4s;
     border-radius: 20px;
 }
-.slider:before {
+#slider:before {
     position: absolute;
     content: "";
     height: 14px;
@@ -80,14 +92,11 @@ tr:hover {
     transition: .4s;
     border-radius: 50%;
 }
-input:checked + .slider {
+input:checked + #slider {
     background-color: #007BFF;
 }
-input:checked + .slider:before {
+input:checked + #slider:before {
     transform: translateX(20px);
-}
-.extended {
-    display: none;
 }
 .wobble {
     animation: wobble 0.5s infinite;
@@ -109,38 +118,22 @@ input:checked + .slider:before {
     th, td {
         padding: 8px;
     }
-    .sliderContainer {
+    #sliderContainer {
         flex-direction: column;
     }
     .switch {
         width: 30px;
         height: 15px;
     }
-    .slider:before {
+    #slider:before {
         width: 11px;
         height: 11px;
         transform: translateX(0);
     }
-    input:checked + .slider:before {
+    input:checked + #slider:before {
         transform: translateX(15px);
     }
 }
-.wobble {
-    animation: wobble 1s infinite;
-}
-@keyframes wobble {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-    100% { transform: translateX(0); }
-}
-/* .accessible {
-    color: green;
-} */
-/* .extended {
-    display: none;
-} */
 .SEA {
     color: green;
 }

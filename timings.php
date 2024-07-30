@@ -34,7 +34,7 @@
             exit();
         }
         ?></h1>
-        <h2><?php 
+        <h2 id="stopName"><?php 
                 if (getStop($busStopCode) != NULL) {
                     echo getStop($busStopCode)."<br>";
                 }
@@ -44,11 +44,11 @@
             $services = timings($busStopCode);
             if (empty($services)) echo "No bus services found.";
         ?></h2>
-        <div class="sliderContainer">
+        <div id="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
-            <label class="switch">
+            <label id="switch">
                 <input type="checkbox" id="infoSlider" onchange="toggleExtendedInfo()">
-                <span class="slider"></span>
+                <span id="slider"></span>
             </label>
         </div>
         <!-- <div class="table-container"> -->

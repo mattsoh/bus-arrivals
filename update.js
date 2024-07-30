@@ -1,9 +1,7 @@
 let extended = false;
 function toggleExtendedInfo() { 
-    console.log(extended,!extended,typeof(extended));
     extended = !extended;
     localStorage.setItem('extended', extended);
-    console.log("after",extended);
     var extendedInfo = document.querySelectorAll('.extended');
     var arrivalInfo = document.querySelectorAll('.arrival-time');
     document.getElementById("infoSlider").checked = extended;
@@ -31,7 +29,14 @@ function updateArrivalTimes() {
         }
         span.setAttribute('secs', secs);
         span.setAttribute('mins', mins);
-        (mins <= 0) ? span.textContent = "Arriving": span.textContent = mins + " mins" + secs;
+        if (mins <= 0){
+            span.classList.add("wobble");
+            span.textContent = "Arriving";
+        }else{
+            span.classList.remove("wobble");
+            span.textContent = mins + " mins" + secs;
+        }
+        
     });
 }
 
@@ -39,7 +44,6 @@ window.onload = function() {
     setInterval(updateArrivalTimes, 1000);
     setInterval(function() { location.reload(); localStorage.setItem('extended', extended); }, 30000);
     extended = localStorage.getItem('extended');
-    console.log(extended);
     extended = (extended == "true");
 if (extended == true){
     extended = false;
