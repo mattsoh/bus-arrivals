@@ -94,7 +94,6 @@ function getStop($stop){
         if ($data[$mid]["BusStopCode"] == $stop){
             return $data[$mid]["Description"];
         }else if ($left == $right){
-            echo $data[$mid]["BusStopCode"];
             return NULL;
         }else if ($data[$mid]["BusStopCode"] <= $stop){
             $left = $mid+1;
@@ -104,7 +103,7 @@ function getStop($stop){
     }
 }
 // $services = timings("11111");
-echo getStop("99189");
+// echo getStop("99189");
 // header('Content-Type: application/json');
 // echo json_encode($services);
 
