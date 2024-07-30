@@ -54,58 +54,59 @@ function timings($busStopCode) {
 function getStop($stop){
     $count = 0;
     $left = 0;
-    $right = 5000;
+    $right = 10;
     while ($left <= $right){
+        $mid = round($left+$right/2);
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$count,
+        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$mid*500,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
+        CURLOPT_TIMEOUT => 10,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
         ));
+        if (curl_errno($curl)) {
+            curl_close($curl);
+            return -2;
+        }
         $response = curl_exec($curl);
         curl_close($curl);
-        $count+=500;
         $data = json_decode($response, true)["value"];
-        if (empty($data)) return NULL;
-        foreach ($data as $poss) {
-            if ($poss["BusStopCode"] == $stop){
-                return $poss["Description"];
-            }
+        if (empty($data)) return -5;
+        else if ($data[0]["BusStopCode"] > $stop){
+            $right = $mid-1;
+        }else if ($data[count($data) - 1] < $stop){
+            $left = $mid+1;
+        }else{
+            break;
         }
-        
     }
-    
-    // return $data;
-    
+    $left = 0;
+    $right = count($data)-1;
+    while ($left <= $right){
+        echo $right;
+        $mid = round(($left+$right)/2);
+        if ($data[$mid]["BusStopCode"] == $stop){
+            return $data[$mid]["Description"];
+        }else if ($left == $right){
+            echo $data[$mid]["BusStopCode"];
+            return -1;
+        }else if ($data[$mid]["BusStopCode"] <= $stop){
+            $right = $mid-1;
+        }else{
+            $left = $mid+1;
+        }
+    }
+    return -100;
 }
 // $services = timings("11111");
-// echo getStop("99189");
+echo getStop("99189");
 // header('Content-Type: application/json');
 // echo json_encode($services);
 
-// function binarySearch($array, $target) {
-        //     $left = 0;
-        //     $right = count($array) - 1;
-        
-        //     while ($left <= $right) {
-        //         $mid = floor(($left + $right) / 2);
-        
-        //         if ($array[$mid] == $target) {
-        //             return $mid;
-        //         } elseif ($array[$mid] < $target) {
-        //             $left = $mid + 1;
-        //         } else {
-        //             $right = $mid - 1;
-        //         }
-        //     }
-        
-        //     return -1;
-        // }
 ?>
 
