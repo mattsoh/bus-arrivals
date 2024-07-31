@@ -4,11 +4,10 @@ function update(stop) {
 
 function save(stops, stopNames){
     if (stops.length == stops.length){
-        localStorage['stops'] = stops;
-        localStorage['stopNames'] = stopNames;
+        localStorage['stops'] = JSON.stringify(stops);
+        localStorage['stopNames'] = JSON.stringify(stopNames);
     }else{
-        localStorage['stops'] = "";
-        localStorage['stopNames'] = "";
+        localStorage.clear();
     }
     console.log("saved");
 }
@@ -40,7 +39,7 @@ function getStops() {
     const stops = localStorage.getItem('stops');
     const stopNames = localStorage.getItem('stopNames')
     console.log(stops,stopNames,stops != null,stopNames != null)
-    if ((stops != null) && (stopNames != null)){
+    if (stops && stopNames && stops.length == stopNames.length){
         console.log("returning ", stops,stopNames)
         return [stops,stopNames];
     }else{ 
@@ -48,18 +47,18 @@ function getStops() {
     }
 }
 
-function displayStops() {
-    const [stops, stopNames] = getStops();
-    const container = document.getElementById('bookmarked-stops');
-    container.innerHTML = '';
-    console.log(stops)
-    stops.forEach((stop, index) => {
-        const stopElement = document.createElement('div');
-        stopElement.textContent = `stop: ${stopNames[index]}`;
-        container.appendChild(stopElement);
-    });
+// function displayStops() {
+//     const [stops, stopNames] = getStops();
+//     const container = document.getElementById('bookmarked-stops');
+//     container.innerHTML = '';
+//     console.log(stops)
+//     for (var i = 0;i<stops.length;i++){
+//         const stopElement = document.createElement('div');
+//         stopElement.textContent = `: ${stopNames[i]} ${stops[i]}`;
+//         container.appendChild(stopElement);
+//     }
 
-}
+// }
 
 // document.addEventListener('DOMContentLoaded', () => {
     
