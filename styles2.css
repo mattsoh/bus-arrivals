@@ -1,4 +1,4 @@
-/* 
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -97,7 +97,7 @@ input:checked + #slider {
 }
 input:checked + #slider:before {
     transform: translateX(20px);
-} */
+}
 .wobble {
     animation: wobble 0.5s infinite !important;
 }

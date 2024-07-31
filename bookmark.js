@@ -1,14 +1,12 @@
 function update(stop) {
     console.log(`Updating ${stop}`);
-    displayStops();
 }
 
-function saveStop(stop) {
+function saveStop(stop, stopName) {
     const stops = getStops();
     if (!stops.includes(stop)) {
-        stops.push(stop);
+        stops.push([stop,stopName]);
         localStorage.setItem('stops', JSON.stringify(stops));
-        update(stop);
         
     } else {
         console.log("Stop already bookmarked");
@@ -21,16 +19,6 @@ function removeStop(stop) {
         const index = stops.indexOf(stop);
         stops.splice(index, 1);
         localStorage.setItem('stops', JSON.stringify(stops));
-        update(stop);
-    }
-}
-
-function toggleBookmark(stop) {
-    const stops = getStops();
-    if (stops.includes(stop)) {
-        removeStop(stop);
-    } else {
-        saveStop(stop);
     }
 }
 

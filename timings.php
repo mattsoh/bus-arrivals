@@ -15,19 +15,7 @@
         ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="styles2.css"> -->
-    <style>
-        .wobble {
-    animation: wobble 0.5s infinite !important;
-}
-@keyframes wobble {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    50% { transform: rotate(0deg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
-}
-    </style>
+    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
     <div>
@@ -47,8 +35,9 @@
         }
         ?></h1>
         <h2 id="stopName"><?php 
-                if (getStop($busStopCode) != NULL) {
-                    echo getStop($busStopCode)."<br>";
+                $stopName = getStop($busStopCode);
+                if ($stopName != NULL) {
+                    echo $stopName."<br>";
                 }
                 
             ?></h2>
@@ -56,7 +45,7 @@
             $services = timings($busStopCode);
             if (empty($services)) echo "No bus services found.";
         ?></h2>
-        <button id="bookmarkButton" onclick="saveStop('<?php echo $busStopCode; ?>')">Bookmark</button>
+        <button id="bookmarkButton" onclick="saveStop(<?php echo $busStopCode?>,'<?php echo $stopName?>')">Bookmark</button>
         <div id="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
             <label id="switch">
@@ -100,7 +89,7 @@
             ?>
         </div>
     </div>
-    <!-- <script src="update.js"></script> -->
+    <script src="update.js"></script>
     <script src="bookmark.js"></script>
 </body>
 </html>
