@@ -1,4 +1,3 @@
-localStorage = {}
 function update(stop) {
     console.log(`Updating ${stop}`);
 }
@@ -39,13 +38,10 @@ function removeStop(stop) {
 function getStops() {
     const stops = localStorage['stops'];
     const stopNames = localStorage['stopNames'];
-    console.log(stops,stopNames,stops != null,stopNames != null)
-    if (stops && stopNames && stops.length == stopNames.length){
+    if (stops && stopNames && JSON.parse(stops).length == JSON.parse(stopNames).length){
         console.log("returning ", stops,stopNames)
-        return [stops,stopNames];
+        return [JSON.parse(stops),JSON.parse(stopNames)];
     }else{ 
         return[[],[]];
     }
 }
-saveStop("11111", "TestStop")
-console.log(getStops())
