@@ -1,3 +1,4 @@
+localStorage = {}
 function update(stop) {
     console.log(`Updating ${stop}`);
 }
@@ -36,8 +37,8 @@ function removeStop(stop) {
 }
 
 function getStops() {
-    const stops = localStorage.getItem('stops');
-    const stopNames = localStorage.getItem('stopNames')
+    const stops = localStorage['stops'];
+    const stopNames = localStorage['stopNames'];
     console.log(stops,stopNames,stops != null,stopNames != null)
     if (stops && stopNames && stops.length == stopNames.length){
         console.log("returning ", stops,stopNames)
@@ -46,21 +47,5 @@ function getStops() {
         return[[],[]];
     }
 }
-
-// function displayStops() {
-//     const [stops, stopNames] = getStops();
-//     const container = document.getElementById('bookmarked-stops');
-//     container.innerHTML = '';
-//     console.log(stops)
-//     for (var i = 0;i<stops.length;i++){
-//         const stopElement = document.createElement('div');
-//         stopElement.textContent = `: ${stopNames[i]} ${stops[i]}`;
-//         container.appendChild(stopElement);
-//     }
-
-// }
-
-// document.addEventListener('DOMContentLoaded', () => {
-    
-//     displayStops();
-// });
+saveStop("11111", "TestStop")
+console.log(getStops())
