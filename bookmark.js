@@ -14,7 +14,8 @@ function save(stops, stopNames){
 }
 
 function saveStop(stop, stopName) {
-    var stops, stopNames = getStops();
+    var [stops, stopNames] = getStops();
+    console.log(stops,stopNames)
     if (!stops.includes(stop)) {
         stops.push(stop);
         stopNames.push(stopName)
@@ -26,7 +27,7 @@ function saveStop(stop, stopName) {
 }
 
 function removeStop(stop) {
-    var stops,stopNames = getStops();
+    var {stops,stopNames} = getStops();
     if (stops.includes(stop)) {
         let index = stops.indexOf(stop);
         stops.splice(index, 1);
@@ -38,19 +39,26 @@ function removeStop(stop) {
 function getStops() {
     const stops = localStorage.getItem('stops');
     const stopNames = localStorage.getItem('stopNames')
-    return stops || stopNames ? (stops,stopNames) : [];
+    console.log(stops,stopNames,stops != null,stopNames != null)
+    if ((stops != null) && (stopNames != null)){
+        console.log("returning ", stops,stopNames)
+        return [stops,stopNames];
+    }else{ 
+        return[[],[]];
+    }
 }
 
 function displayStops() {
-    const stops = getStops();
+    const [stops, stopNames] = getStops();
     const container = document.getElementById('bookmarked-stops');
     container.innerHTML = '';
-
-    stops.forEach(stop => {
+    console.log(stops)
+    stops.forEach((stop, index) => {
         const stopElement = document.createElement('div');
-        stopElement.textContent = stop;
+        stopElement.textContent = `stop: ${stopNames[index]}`;
         container.appendChild(stopElement);
     });
+
 }
 
 // document.addEventListener('DOMContentLoaded', () => {
