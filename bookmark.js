@@ -3,10 +3,18 @@ function update(stop) {
 }
 
 function saveStop(stop, stopName) {
-    const stops = getStops();
+    var stops, stopNames = getStops();
     if (!stops.includes(stop)) {
-        stops.push([stop,stopName]);
-        localStorage.setItem('stops', JSON.stringify(stops));
+        stops.push(stop);
+        stopNames.push(stopName)
+        if (stops.length == stops.length){
+            localStorage['stops'] = stops;
+            localStorage['stopNames'] = stopNames;
+        }else{
+            localStorage['stops'] = "";
+            localStorage['stopNames'] = "";
+        }
+        console.log("saved");
         
     } else {
         console.log("Stop already bookmarked");
@@ -14,17 +22,19 @@ function saveStop(stop, stopName) {
 }
 
 function removeStop(stop) {
-    const stops = getStops();
+    var stops,stopNames = getStops();
     if (stops.includes(stop)) {
-        const index = stops.indexOf(stop);
+        let index = stops.indexOf(stop);
         stops.splice(index, 1);
-        localStorage.setItem('stops', JSON.stringify(stops));
+        stopNames.splice(index,1);
+        localStorage['stops'] = stops;
     }
 }
 
 function getStops() {
     const stops = localStorage.getItem('stops');
-    return stops ? JSON.parse(stops) : [];
+    const stopNames = localstorage.getItem('stopNames')
+    return stops,stopNames ? JSON.parse(stops) : [];
 }
 
 function displayStops() {
@@ -39,10 +49,7 @@ function displayStops() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const stops = getStops();
-    stops.forEach(stop => {
-        update(stop);
-    });
-    displayStops();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+    
+//     displayStops();
+// });
