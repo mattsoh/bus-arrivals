@@ -41,12 +41,13 @@
                 }
                 
             ?></h2>
+        <button id="bookmark" onclick="toggleBookmark(<?php echo $stop?>)">Toggle bookmark</button>
         <h2><?php 
             $services = timings($stop);
             if (empty($services)) echo "No bus services found.";
         ?></h2>
-        <button id="bookmark" onclick="toggleBookmark(<?php echo $stop?>)">Toggle bookmark</button>
-        <div id="sliderContainer">
+        <div id="sliderContainer" <?php (empty($services)) ? echo "style='display:hidden'" : "" ?>>
+            
             <label for="infoSlider">Show Extended Information: </label>
             <label id="switch">
                 <input type="checkbox" id="infoSlider" onchange="toggleExtendedInfo()">
@@ -55,37 +56,40 @@
         </div>
         <div class="table-container">
             <table id='busTable'>
-            <?php
-                if (!empty($services)){
-                    echo "<thead><tr>
-                            <th></th>
-                            <th>Next Bus</th>
-                            <th>Next Bus 2</th>
-                        </tr></thead><tbody>";
-                    foreach ($services as $serviceNumber => $service) {
-                        echo "<tr>";
-                        echo "<td>" . $serviceNumber;
-                        echo "<div class='extended'><br>" . $service['Operator'] . "</div></td>";
-                        foreach (['NextBus', 'NextBus2'] as $nextBus) {
-                            if (empty($service[$nextBus])){
-                                echo "<td></td>";
-                            }else{
-                                $accessibility = $service[$nextBus]['Feature'] == "WAB" ? "inline" : "none";
-                                echo "<td>";
-                                echo "<span class='wobble arrival-time " . $service[$nextBus]['Load']."' mins='" . $service[$nextBus]['TimeRemaining'][0]."' secs='" . $service[$nextBus]['TimeRemaining'][1]."'>". (($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving")." </span>";
-                                echo "<div class='extended'>";
-                                echo "<span class='".$service[$nextBus]['Load']. "'>".(($service[$nextBus]['Load'] == "SEA") ? "Seats Available" : (($service[$nextBus]['Load'] == "SDA") ? "Standing Available" : "Limited Standing")) . "</span><br>";
-                                echo (($service[$nextBus]['Type'] == "SD") ? "Single Deck" : (($service[$nextBus]['Type'] == "DD") ? "Double Deck" : "Bendy")) ."<br>";
-                                if ($service[$nextBus]['Feature'] == "WAB") echo "♿ Accessable";
-                                echo "</div></td>";
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Next Bus</th>
+                        <th>Next Bus 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    if (!empty($services)){
+                        foreach ($services as $serviceNumber => $service) {
+                            echo "<tr>";
+                            echo "<td>" . $serviceNumber;
+                            echo "<div class='extended'><br>" . $service['Operator'] . "</div></td>";
+                            foreach (['NextBus', 'NextBus2'] as $nextBus) {
+                                if (empty($service[$nextBus])){
+                                    echo "<td></td>";
+                                }else{
+                                    $accessibility = $service[$nextBus]['Feature'] == "WAB" ? "inline" : "none";
+                                    echo "<td>";
+                                    echo "<span class='wobble arrival-time " . $service[$nextBus]['Load']."' mins='" . $service[$nextBus]['TimeRemaining'][0]."' secs='" . $service[$nextBus]['TimeRemaining'][1]."'>". (($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving")." </span>";
+                                    echo "<div class='extended'>";
+                                    echo "<span class='".$service[$nextBus]['Load']. "'>".(($service[$nextBus]['Load'] == "SEA") ? "Seats Available" : (($service[$nextBus]['Load'] == "SDA") ? "Standing Available" : "Limited Standing")) . "</span><br>";
+                                    echo (($service[$nextBus]['Type'] == "SD") ? "Single Deck" : (($service[$nextBus]['Type'] == "DD") ? "Double Deck" : "Bendy")) ."<br>";
+                                    if ($service[$nextBus]['Feature'] == "WAB") echo "♿ Accessable";
+                                    echo "</div></td>";
+                                }
+                                
                             }
-                            
+                            echo "</tr>";
                         }
-                        echo "</tr>";
                     }
-                    echo "</tbody>";
-                }
-            ?>
+                ?>
+                </tbody>
             </table>
         </div>
     </div>
