@@ -45,3 +45,7 @@ function getStops() {
         return[[],[]];
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+});

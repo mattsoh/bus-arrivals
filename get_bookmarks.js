@@ -12,9 +12,8 @@ function getStops() {
 }
 
 function queryBookmark(stop) {
-    console.log(stop,form.stop);
-    var form = document.busStopForm;
-    form.stop.value = stop;
+    var form = document.getElementById("busStopForm");
+    form.elements['busStopCode'].value = stop;
     form.submit();
 }
 
@@ -26,9 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (var i = 0; i < stops.length; i++) {
         const stopElement = document.createElement('div');
         stopElement.textContent = `${stopNames[i]} (${stops[i]})`;
-        stopElement.onclick = () =>  {
-            queryBookmark(stops[i]);
-        };
+        stopElement.onclick = function(stop) {return function(){queryBookmark(stop);}}(stops[i]);
         // console.log(stopElement.onclick);
         container.appendChild(stopElement);
     }

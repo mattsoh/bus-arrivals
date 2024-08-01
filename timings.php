@@ -5,9 +5,9 @@
         <?php
         include 'gettimes.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $busStopCode = trim($_POST['busStopCode']);
-            echo (is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL)
-                ? "Stop " . $busStopCode . " Arrival Times"
+            $stop = trim($_POST['busStopCode']);
+            echo (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL)
+                ? "Stop " . $stop . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
             echo "Invalid request";
@@ -21,9 +21,9 @@
     <div>
         <h1><?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $busStopCode = trim($_POST['busStopCode']);
-            if (is_numeric($busStopCode) && strlen($busStopCode) == 5 && getStop($busStopCode) != NULL) {
-                echo "Stop " . $busStopCode;
+            $stop = trim($_POST['busStopCode']);
+            if (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL) {
+                echo "Stop " . $stop;
             } else {
                 echo "Invalid bus stop code. Please enter a valid code.";
                 header("Location: /invalid.html");
@@ -35,17 +35,17 @@
         }
         ?></h1>
         <h2 id="stopName"><?php 
-                $stopName = getStop($busStopCode);
+                $stopName = getStop($stop);
                 if ($stopName != NULL) {
                     echo $stopName."<br>";
                 }
                 
             ?></h2>
         <h2><?php 
-            $services = timings($busStopCode);
+            $services = timings($stop);
             if (empty($services)) echo "No bus services found.";
         ?></h2>
-        <button id="bookmarkButton" onclick="saveStop(<?php echo $busStopCode?>,'<?php echo $stopName?>')">Bookmark</button>
+        <button id="bookmark" onclick="toggleBookmark(<?php echo $stop?>)"></button>
         <div id="sliderContainer">
             <label for="infoSlider">Show Extended Information: </label>
             <label id="switch">
@@ -54,9 +54,9 @@
             </label>
         </div>
         <div class="table-container">
+            <table id='busTable'>
             <?php
                 if (!empty($services)){
-                    echo "<table id='busTable'>";
                     echo "<thead><tr>
                             <th></th>
                             <th>Next Bus</th>
@@ -84,9 +84,10 @@
                         }
                         echo "</tr>";
                     }
-                    echo "</tbody></table>";
+                    echo "</tbody>";
                 }
             ?>
+            </table>
         </div>
     </div>
     <script src="update.js"></script>

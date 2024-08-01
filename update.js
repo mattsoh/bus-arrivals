@@ -9,7 +9,7 @@ function toggleExtendedInfo() {
         extendedInfo[i].style.display = extended ? 'block' : 'none';
     }
     for (var j = 0;j<arrivalInfo.length; j++){
-        arrivalInfo[j].classList.toggle("override");
+        (extended)? arrivalInfo[j].classList.add("override") :arrivalInfo[j].classList.remove("override") ;
     }
 }
 
@@ -40,13 +40,10 @@ function updateArrivalTimes() {
     });
 }
 
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateArrivalTimes, 1000);
     setInterval(function() { location.reload(); localStorage.setItem('extended', extended); }, 30000);
-    extended = localStorage.getItem('extended') == "true";
-    if (extended){
-        extended = false;
-        toggleExtendedInfo();
-    }
-}
+    extended = localStorage.getItem('extended') == "false";
+    toggleExtendedInfo();
+});
     
