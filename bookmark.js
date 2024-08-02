@@ -36,6 +36,7 @@ function toggleBookmark(stop, remove) {
 function getStops() {
     const stops = localStorage['stops'];
     const stopNames = localStorage['stopNames'];
+    console.log(stops,stopNames)
     if (stops && stopNames && JSON.parse(stops).length == JSON.parse(stopNames).length){
         console.log("returning ", stops,stopNames)
         return [JSON.parse(stops),JSON.parse(stopNames)];

@@ -1,8 +1,9 @@
 function getStops() {
     const stops = JSON.parse(localStorage.getItem('stops'));
     const stopNames = JSON.parse(localStorage.getItem('stopNames'));
-    // console.log(stops,stopNames,(stops&&stopNames),stops.length == stopNames.length)
-    // console.log(stops.length,stopNames.length)
+    console.log(stops,stopNames,(stops&&stopNames),stops.length == stopNames.length)
+    console.log(stops.length,stopNames.length)
+    console.log(stops,stopNames)
     if (stops && stopNames && stops.length == stopNames.length){
         console.log("returning ", stops,stopNames)
         return [stops,stopNames];
