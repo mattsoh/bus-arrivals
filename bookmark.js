@@ -66,7 +66,7 @@ function getStops() {
 document.addEventListener('DOMContentLoaded', function() {
     var [stops, stopNames] = getStops();
     let stop = document.getElementById('stopName').getAttribute('stop');
-    if (!isNaN(stop) && parseInt(stop) in stops){
+    if (stops.includes(parseInt(stop))){
         document.getElementById('bookmark').style['display'] = "hidden";
     }
 });

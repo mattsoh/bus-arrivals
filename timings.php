@@ -59,8 +59,8 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Next Bus</th>
-                        <th>Next Bus 2</th>
+                        <th>Next</th>
+                        <th>Subsequent</th>
                     </tr>
                 </thead>
                 <tbody>
