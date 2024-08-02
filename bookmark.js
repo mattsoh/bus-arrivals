@@ -11,19 +11,37 @@ function save(stops, stopNames){
     }
     console.log("saved");
 }
-
+function saveStop(stop){
+    var [stops, stopNames] = getStops();
+    if (!stops.includes(stop)) {
+        stops.push(stop);
+        stopNames.push(document.getElementById('stopName').textContent);
+        save(stops,stopNames)
+    } else {
+        console.log("Stop already bookmarked");
+    }
+}
+function removeStop(stop){
+    var [stops,stopNames] = getStops();
+    if (stops.includes(stop)) {
+        let index = stops.indexOf(stop);
+        stops.splice(index, 1);
+        stopNames.splice(index,1);
+        save(stops,stopNames);
+    }
+}
 function toggleBookmark(stop, remove) {
     var [stops, stopNames] = getStops();
+    console.log(remove);
     if (remove){
         if (!stops.includes(stop)) {
             stops.push(stop);
-            stopNames.push(document.getElementById("stopName").textContent);
+            stopNames.push(document.getElementById('stopName').textContent);
             save(stops,stopNames)
         } else {
             console.log("Stop already bookmarked");
         }
     }else {
-        var [stops,stopNames] = getStops();
         if (stops.includes(stop)) {
             let index = stops.indexOf(stop);
             stops.splice(index, 1);
@@ -46,6 +64,9 @@ function getStops() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // var [stops, stopNames] = getStops();
-    // if (document.getElementById("stopName").textContent)
+    var [stops, stopNames] = getStops();
+    let stop = document.getElementById('stopName').getAttribute('stop');
+    if (stop in stops){
+        document.getElementById('bookmark').style['display'] = "hidden";
+    }
 });

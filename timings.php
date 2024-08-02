@@ -34,14 +34,14 @@
             exit();
         }
         ?></h1>
-        <h2 id="stopName"><?php 
+        <h2 id="stopName" stop=<?php echo $stop; ?>><?php 
                 $stopName = getStop($stop);
                 if ($stopName != NULL) {
                     echo $stopName."<br>";
                 }
                 
             ?></h2>
-        <button id="bookmark" onclick="toggleBookmark(<?php echo $stop?>)">Toggle bookmark</button>
+        <button id="bookmark" onclick="saveStop(<?php echo $stop?>)">Add bookmark</button>
         <h2><?php 
             $services = timings($stop);
             if (empty($services)) echo "No bus services found.";
