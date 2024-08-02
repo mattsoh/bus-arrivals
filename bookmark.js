@@ -67,6 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var [stops, stopNames] = getStops();
     let stop = document.getElementById('stopName').getAttribute('stop');
     if (stops.includes(parseInt(stop))){
-        document.getElementById('bookmark').style['display'] = "hidden";
+        document.getElementById('bookmark').style['display'] = "none";
     }
 });

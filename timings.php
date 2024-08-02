@@ -46,7 +46,7 @@
             $services = timings($stop);
             if (empty($services)) echo "No bus services found.";
         ?></h2>
-        <div id="sliderContainer" <?php echo (empty($services)) ? "style='display:hidden'" : "" ?>>
+        <div id="sliderContainer" <?php echo (empty($services)) ? "style='display:none'" : "" ?>>
             
             <label for="infoSlider">Show Extended Information: </label>
             <label id="switch">
@@ -54,7 +54,7 @@
                 <span id="slider"></span>
             </label>
         </div>
-        <div class="table-container">
+        <div class="table-container" <?php echo (empty($services)) ? "style='display:none'" : "" ?>>
             <table id='busTable'>
                 <thead>
                     <tr>

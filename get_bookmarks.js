@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const stopElement = document.createElement('div');
         stopElement.textContent = `${stopNames[i]} (${stops[i]})`;
         stopElement.onclick = function(stop) {return function(){queryBookmark(stop);}}(stops[i]);
+        stopElement.classList.add("bookmark");
         // console.log(stopElement.onclick);
         container.appendChild(stopElement);
     }
