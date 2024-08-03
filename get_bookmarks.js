@@ -11,7 +11,15 @@ function getStops() {
         return[[],[]];
     }
 }
-
+function removeStop(stop){
+    var [stops,stopNames] = getStops();
+    if (stops.includes(stop)) {
+        let index = stops.indexOf(stop);
+        stops.splice(index, 1);
+        stopNames.splice(index,1);
+        save(stops,stopNames);
+    }
+}
 function queryBookmark(stop) {
     var form = document.getElementById("busStopForm");
     form.elements['busStopCode'].value = stop;
@@ -25,10 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // console.log(stops);
     for (var i = 0; i < stops.length; i++) {
         const stopElement = document.createElement('div');
-        stopElement.textContent = `${stopNames[i]} (${stops[i]})`;
-        stopElement.onclick = function(stop) {return function(){queryBookmark(stop);}}(stops[i]);
+        const stopSpan = document.createElement('span');
+
+        stopElement.innerHTML = `${stopNames[i]} (<span class="bookmark-code" onclick="removeStop(${stops[i]})">${stops[i]}</span>)`;
+        stopElement.onclick = function(stop) { return function() { queryBookmark(stop); } }(stops[i]);
         stopElement.classList.add("bookmark");
-        // console.log(stopElement.onclick);
+        stopSpan.classList.add("bookmark-code")
+    
+        stopElement.appendChild(stopSpan);
         container.appendChild(stopElement);
     }
+    
 });

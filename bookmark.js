@@ -21,15 +21,7 @@ function saveStop(stop){
         console.log("Stop already bookmarked");
     }
 }
-function removeStop(stop){
-    var [stops,stopNames] = getStops();
-    if (stops.includes(stop)) {
-        let index = stops.indexOf(stop);
-        stops.splice(index, 1);
-        stopNames.splice(index,1);
-        save(stops,stopNames);
-    }
-}
+
 function toggleBookmark(stop, remove) {
     var [stops, stopNames] = getStops();
     console.log(remove);
