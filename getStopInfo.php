@@ -56,18 +56,19 @@ function getNearestStops($lat, $long){
         $data = $_SERVER['stops'];
         $data = $_SERVER['stops'];
         echo count($data), '\n';
+        $dists = [];
         foreach ($data as $stop) {
             $x = abs($stop['Latitude'] - $lat) * 111;
             $y = abs($stop['Longitude'] - $long) * 111;
-            echo $x," ",$y,"\n";
+            // echo $x," ",$y,"\n";
             // if (sqrt($x * $x + $y * $y) < 10)
-            $dists[sqrt($x * $x + $y * $y)] = [$stop['BusStopCode'],$stop['Description']] ;
+            array_push($dists, [sqrt($x * $x + $y * $y), $stop['BusStopCode'],$stop['Description']]) ;
         }
-        ksort($dists);
+        sort($dists);
         // return array_slice($dists, 0, 10);
         // echo array_keys($dists);
-        echo count($dists), '\n';
-        return $dists;
+        // echo count($dists), '\n';
+        // return $dists;
 }
 function getStopName($stop){
     $response = getAllData();
