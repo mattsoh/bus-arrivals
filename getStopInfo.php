@@ -38,7 +38,7 @@ function getAllData(){
             $allData = array_merge($allData, $data['value']);
             $skip++;
         } while (!empty($data['value']));
-        echo json_encode($allData[100]);
+        // echo json_encode($allData[100]);
         $_SERVER['stops'] = $allData;
         return 0;
     } catch (Exception $e) {
@@ -48,20 +48,19 @@ function getAllData(){
         return -1;
     }
 }
-function getNearestStops($longitude){
-    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_POST['latitude']) && isset($_POST['longitude'])) {
-        $lat = $_POST['latitude'];
-        $long = $_POST['longitude'];
+function getNearestStops($lat, $long){
+        // $lat = $_POST['latitude'];
+        // $long = $_POST['longitude'];
         // $_SESSION['latitude'] = $latitude;
         // $_SESSION['longitude'] = $longitude;
-        $dists = [];
+        $data = $_SERVER['stops'];
         foreach ($data as $stop) {
-            $x = ($stop['Latitude'] - $lat) * 111;
-            $y = ($stop['Longitude'] - $long) * 111;
-            $dists[$stop['BusStopCode']] = (sqrt($x * $x + $y * $y) > 5) ? 0: sqrt($x * $x + $y * $y);
+            $x = abs($stop['Latitude'] - $lat) * 111;
+            $y = abs($stop['Longitude'] - $long) * 111;
+            if (sqrt($x * $x + $y * $y) < 5) $dists[sqrt($x * $x + $y * $y)] = [$stop['BusStopCode'],$stop['Description']] ;
         }
-        
-    }
+        ksort($dists);
+        return array_slice($dists, 0, 10);
 }
 function getStopName($stop){
     $response = getAllData();
@@ -87,5 +86,9 @@ function getStopName($stop){
     return NULL;
 }
 getAllData();
+$res = getNearestStops(1.3153765, 103.804206);
+foreach ($res as $r){
+    echo $r[0], $r[1];
+}
 ?>
 
