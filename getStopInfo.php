@@ -50,13 +50,17 @@ function getAllData(){
 }
 function getNearestStops($longitude){
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_POST['latitude']) && isset($_POST['longitude'])) {
-        $latitude = $_POST['latitude'];
-        $longitude = $_POST['longitude'];
-        $_SESSION['latitude'] = $latitude;
-        $_SESSION['longitude'] = $longitude;
-        foreach (i in $data) {
-            if (i)
+        $lat = $_POST['latitude'];
+        $long = $_POST['longitude'];
+        // $_SESSION['latitude'] = $latitude;
+        // $_SESSION['longitude'] = $longitude;
+        $dists = [];
+        foreach ($data as $stop) {
+            $x = ($stop['Latitude'] - $lat) * 111;
+            $y = ($stop['Longitude'] - $long) * 111;
+            $dists[$stop['BusStopCode']] = (sqrt($x * $x + $y * $y) > 5) ? 0: sqrt($x * $x + $y * $y);
         }
+        
     }
 }
 function getStopName($stop){
