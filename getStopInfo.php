@@ -3,39 +3,47 @@ list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2)
 putenv("$key=$value");
 function getAllData(){
     $skip = 1;
-    do {
-        echo $skip;
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/Bup?$skip='.$skip*500,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 10,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
-        ));
-        if (curl_errno($curl)) {
-            echo $code;
-            $code = curl_errno($curl);
-            switch ($code) {
-                case 408:
-                    http_response_code(504);
-                    break;
-                default:
-                    http_response_code(500);
+    $allData = [];
+    try {
+        do {
+            echo $skip;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/Bup?$skip='.$skip*500,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
+            ));
+            if (curl_errno($curl)) {
+                echo $code;
+                $code = curl_errno($curl);
+                switch ($code) {
+                    case 408:
+                        http_response_code(504);
+                        break;
+                    default:
+                        http_response_code(500);
+                }
+                return -1;
             }
-            return -1;
-        }
-        $response_data = curl_exec($curl);
-        curl_close($curl);
-        $data = json_decode($response_data, true);
-        echo $data;
-        $skip++;
-        $_SERVER['storage'].append(data);
-    } while (!empty($data));
+            $response_data = curl_exec($curl);
+            curl_close($curl);
+            $data = json_decode($response_data, true);
+            echo $data;
+            $allData = array_merge($allData, $data['value']);
+            $skip++;
+        } while (!empty($data['value']));
+        $_SERVER['stops'].append($allData);
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+        http_response_code(500);
+        return -1;
+    }
 }
 function getNearestStops($longitude){
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['latitude']) && isset($_POST['longitude'])) {
