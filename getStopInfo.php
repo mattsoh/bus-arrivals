@@ -2,12 +2,12 @@
 list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
 putenv("$key=$value");
 function getAllData(){
-    $mid = 1;
+    $skip = 1;
     do {
-        echo $mid;
+        echo $skip;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/Bup?$skip='.$mid*500,
+        CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/Bup?$skip='.$skip*500,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -27,14 +27,14 @@ function getAllData(){
                 default:
                     http_response_code(500);
             }
-           
-            // return -1;
+            return -1;
         }
         $response_data = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response_data, true);
         echo $data;
-        $mid++;
+        $skip++;
+        $_SERVER['storage'].append(data);
     } while (!empty($data));
 }
 function getNearestStops($longitude){
