@@ -2,7 +2,7 @@
 list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
 putenv("$key=$value");
 function getAllData(){
-    $skip = 1;
+    $skip = 0;
     $allData = [];
     try {
         do {
@@ -53,50 +53,30 @@ function getNearestStops($lat, $long){
         // $long = $_POST['longitude'];
         // $_SESSION['latitude'] = $latitude;
         // $_SESSION['longitude'] = $longitude;
-        $data = $_SERVER['stops'];
+        $response = getAllData();
+        if ($response == -1) return -1;
         $data = $_SERVER['stops'];
         echo count($data), '\n';
         $dists = [];
         foreach ($data as $stop) {
-            $x = abs($stop['Latitude'] - $lat) * 111;
-            $y = abs($stop['Longitude'] - $long) * 111;
+            $x = abs($stop['Latitude'] - $lat) * 111.12;
+            $y = abs($stop['Longitude'] - $long) * 111.21;
             // echo $x," ",$y,"\n";
             // if (sqrt($x * $x + $y * $y) < 10)
             array_push($dists, [sqrt($x * $x + $y * $y), $stop['BusStopCode'],$stop['Description']]) ;
         }
         sort($dists);
-        // return array_slice($dists, 0, 10);
+        return array_slice($dists, 0, 10);
         // echo array_keys($dists);
         // echo count($dists), '\n';
         // return $dists;
 }
-function getStopName($stop){
-    $response = getAllData();
-    if ($response == -1) return -1;
-    $data = $_SERVER['stops'];
-    $count = 0;
-    $left = 0;
-    $right = count($data)-1;
-    while ($left <= $right){
-        $mid = round(($left+$right)/2);
-        if ($data[$mid]["BusStopCode"] == $stop){
-            return $data[$mid]["Description"];
-        }else if ($left == $right){
-            http_response_code(404);
-            return NULL;
-        }else if ($data[$mid]["BusStopCode"] <= $stop){
-            $left = $mid+1;
-        }else{
-            $right = $mid-1;
-        }
-    }
-    http_response_code(404);
-    return NULL;
-}
-getAllData();
-$res = getNearestStops(1.3153765, 103.804206);
-foreach ($res as $r){
-    echo $r[0], $r[1];
-}
+
+// getAllData();
+// $res = getNearestStops(1.3153765, 103.804206);
+// foreach ($res as $r){
+//     echo $r[1], $r[2];
+// }
+// echo getStopName('11111');
 ?>
 
