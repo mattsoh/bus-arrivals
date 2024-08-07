@@ -13,13 +13,14 @@ function save(stops, stopNames){
 }
 function saveStop(stop){
     var [stops, stopNames] = getStops();
-    if (!stops.includes(stop)) {
+    if (!stops.includes(toString(stop))) {
         console.log(stop,toString(stop));
         stops.push(''+stop);
         stopNames.push(document.getElementById('stopName').textContent);
         save(stops,stopNames)
+        window.alert("Saved stop")
     } else {
-        console.log("Stop already bookmarked");
+        window.alert("Stop already bookmarked");
     }
 }
 function getStops() {

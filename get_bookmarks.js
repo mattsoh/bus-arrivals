@@ -57,7 +57,7 @@ function getNearestStops() {
             container.innerHTML = "";
             data.forEach(stop => {
                 let stopElement = document.createElement("li");
-                stopElement.onclick = function(stop) { return function() { query(stop); } }(stop);
+                stopElement.onclick = function(stop) { return function() { query(stop[0]); } }(stop);
                 stopElement.textContent = `${stop[1]} (${stop[0]})`;
                 stopElement.classList.add("stop");
                 container.appendChild(stopElement);
@@ -77,9 +77,10 @@ function getNearestStops() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let [stops, stopNames] = getStops();
-    let container = document.getElementById('bookmarked-stops');
+    let container = document.getElementById('bookmarks');
     container.innerHTML = '';
-    // console.log(stops);
+    console.log(stops);
+    if (stops.length == 0) container.style.display = "none";
     for (var i = 0; i < stops.length; i++) {
         let stopElement = document.createElement('li');
         let stopSpan = document.createElement('span');
