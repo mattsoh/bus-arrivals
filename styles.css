@@ -74,7 +74,7 @@ input[type="submit"]:hover {
     50% { background-color: #ffdddd; }
     100% { background-color: #007BFF; }
 }
-.bookmarks {
+/* .bookmarks {
     text-align: center;
     padding: 20px;
     border-radius: 10px;
@@ -85,14 +85,14 @@ input[type="submit"]:hover {
     box-sizing: border-box;
     overflow: hidden;
     justify-content: center;
-}
-.bookmark {
+} */
+.stop {
     text-align: left;
     cursor: pointer;
 }
-.bookmark:hover {
+.stop:hover {
     font-weight: bold;
 }
-.bookmark-code:hover {
+.code:hover {
     text-decoration: line-through;
 }
