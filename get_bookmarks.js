@@ -1,6 +1,6 @@
 function getStops() {
-    const stops = JSON.parse(localStorage.getItem('stops'));
-    const stopNames = JSON.parse(localStorage.getItem('stopNames'));
+    let stops = JSON.parse(localStorage.getItem('stops'));
+    let stopNames = JSON.parse(localStorage.getItem('stopNames'));
     console.log(stops,stopNames,(stops&&stopNames),stops.length == stopNames.length)
     console.log(stops.length,stopNames.length)
     console.log(stops,stopNames)
@@ -27,13 +27,13 @@ function queryBookmark(stop) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const [stops, stopNames] = getStops();
-    const container = document.getElementById('bookmarked-stops');
+    let [stops, stopNames] = getStops();
+    let container = document.getElementById('bookmarked-stops');
     container.innerHTML = '';
     // console.log(stops);
     for (var i = 0; i < stops.length; i++) {
-        const stopElement = document.createElement('div');
-        const stopSpan = document.createElement('span');
+        let stopElement = document.createElement('div');
+        let stopSpan = document.createElement('span');
 
         stopElement.innerHTML = `${stopNames[i]} (<span class="bookmark-code" onclick="removeStop(${stops[i]})">${stops[i]}</span>)`;
         stopElement.onclick = function(stop) { return function() { queryBookmark(stop); } }(stops[i]);
