@@ -15,11 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $y = abs($stop['Longitude'] - $long) * 111.21;
             $val = sqrt($x * $x + $y * $y);
             for ($i = 0; $i < 5; $i++){
-                if ($val < $closest[$i]){
-                    array_splice($closest, $i, 0, [$val, $stop['BusStopCode'], $stop['Description']]);
+                if ($val < $closest[$i][0]){
+                    array_splice($closest, $i, 0, [[$val, $stop['BusStopCode'], $stop['Description']]]);
                     array_pop($closest);
                     break;
                 }   
+                // echo json_encode($closest), "\n";
             }
             // array_push($dists, [sqrt($x * $x + $y * $y), $stop['BusStopCode'],$stop['Description']]) ;
         }

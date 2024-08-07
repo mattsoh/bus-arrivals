@@ -25,6 +25,47 @@ function queryBookmark(stop) {
     form.elements['busStopCode'].value = stop;
     form.submit();
 }
+function getNearestStops() {
+    let options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+    function success(pos) {
+        let latitude = pos.coords.latitude;
+        let longitude = pos.coords.longitude;
+        
+        fetch(`/getNearestStops.php?lat=${latitude}&long=${longitude}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('could not connect to server' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            let container = document.getElementById("nearby-stops");
+            let button = document.getElementById("nearby-button");
+            console.log(data);
+
+            container.innerHTML = "";
+            data.forEach(stop => {
+                let stopElement = document.createElement("li");
+                stopElement.onclick = function(stop) { return function() { queryBookmark(stop[0]); } }(stop);
+                stopElement.textContent = `${stop[1]} (${stop[0]})`;
+                container.appendChild(stopElement);
+            });
+            container.style.display = "";
+            button.textContent = "refresh";
+        })  
+        // .catch(error => {
+        //     window.alert('Error finding nearest stops:', error);
+        // });
+    }
+    function error(err) {
+        window.alert(`Unable to get current location (${err.code}: ${err.message})`);
+    }
+    navigator.geolocation.getCurrentPosition(success,error,options);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     let [stops, stopNames] = getStops();
@@ -32,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     container.innerHTML = '';
     // console.log(stops);
     for (var i = 0; i < stops.length; i++) {
-        let stopElement = document.createElement('div');
+        let stopElement = document.createElement('li');
         let stopSpan = document.createElement('span');
 
         stopElement.innerHTML = `${stopNames[i]} (<span class="bookmark-code" onclick="removeStop(${stops[i]})">${stops[i]}</span>)`;
