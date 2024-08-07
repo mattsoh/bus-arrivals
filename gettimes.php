@@ -2,7 +2,6 @@
 list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
 putenv("$key=$value");
 function timings($busStopCode) {
-    
     $services = []; 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
         $curl = curl_init();
@@ -50,60 +49,79 @@ function timings($busStopCode) {
     }
     return $services;
 }
-
-// function getStop($stop){
-//     $count = 0;
-//     $left = 0;
-//     $right = 10;
-//     while ($left <= $right){
-//         $mid = round(($left+$right)/2);
-//         // echo $left . ' '.$right .' '. $mid . "\n";
-//         $curl = curl_init();
-//         curl_setopt_array($curl, array(
-//         CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$mid*500,
-//         CURLOPT_RETURNTRANSFER => true,
-//         CURLOPT_ENCODING => '',
-//         CURLOPT_MAXREDIRS => 10,
-//         CURLOPT_TIMEOUT => 10,
-//         CURLOPT_FOLLOWLOCATION => true,
-//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//         CURLOPT_CUSTOMREQUEST => 'GET',
-//         CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
-//         ));
-//         if (curl_errno($curl)) {
-//             curl_close($curl);
-//             return -1;
-//         }
-//         $response = curl_exec($curl);
-//         curl_close($curl);
-//         $data = json_decode($response, true)["value"];
-//         // echo $data[0]["BusStopCode"] . $data[count($data)-1]["BusStopCode"] . "\n";
-//         if (empty($data)) return -5;
-//         else if ($data[0]["BusStopCode"] > $stop){
-//             $right = $mid-1;
-//         }else if ($data[count($data)-1]["BusStopCode"] < $stop){
-//             $left = $mid+1;
-//         }else{
-//             break;
-//         }
-//     }
-//     $left = 0;
-//     $right = count($data)-1;
-//     while ($left <= $right){
-//         $mid = round(($left+$right)/2);
-//         if ($data[$mid]["BusStopCode"] == $stop){
-//             return $data[$mid]["Description"];
-//         }else if ($left == $right){
-//             return NULL;
-//         }else if ($data[$mid]["BusStopCode"] <= $stop){
-//             $left = $mid+1;
-//         }else{
-//             $right = $mid-1;
-//         }
-//     }
-// }
+function getAllData(){
+    $skip = 0;
+    $allData = [];
+    try {
+        do {
+            // echo $skip;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip='.$skip*500,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array('AccountKey: '. getenv("API_KEY")),
+            ));
+            if (curl_errno($curl)) {
+                echo $code;
+                $code = curl_errno($curl);
+                switch ($code) {
+                    case 408:
+                        http_response_code(504);
+                        break;
+                        default:
+                        http_response_code(500);
+                    }
+                    return -1;
+            }
+            $response_data = curl_exec($curl);
+            curl_close($curl);
+            $data = json_decode($response_data, true);
+            // echo $data;
+            $allData = array_merge($allData, $data['value']);
+            $skip++;
+        } while (!empty($data['value']));
+            // echo json_encode($allData[100]);
+            $_SERVER['stops'] = $allData;
+            return 0;
+    } catch (Exception $e) {
+        throw new Exception("Error: " . $e->getMessage() . "\n");
+        echo "Error: " . $e->getMessage() . "\n";
+        http_response_code(500);
+        return -1;
+    }
+}
+function getStop($stop){
+    $response = getAllData();
+    if ($response == -1) return -1;
+    $data = $_SERVER['stops'];
+    $count = 0;
+    $left = 0;
+    $right = count($data)-1;
+    while ($left <= $right){
+        // echo $left, ' ', $right, "\n";
+        $mid = round(($left+$right)/2);
+        // echo $data[$mid]["BusStopCode"], $stop, ($data[$mid]["BusStopCode"]<$stop)?"small" : "big";
+        if ($data[$mid]["BusStopCode"] == $stop){
+            return $data[$mid]["Description"];
+        }else if ($left == $right){
+            // echo $left, $data[$mid]["BusStopCode"];
+            return NULL;
+        }else if ($data[$mid]["BusStopCode"] <= $stop){
+            $left = $mid+1;
+        }else{
+            $right = $mid-1;
+        }
+    }
+    return NULL;
+}
 // $services = timings("11111");
-// echo getStop("99189");
+echo getStop("99189");
 // header('Content-Type: application/json');
 // echo json_encode($services);
 
