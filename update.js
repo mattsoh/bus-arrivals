@@ -41,7 +41,6 @@ function updateArrivalTimes() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('bookmark').style.display = "none";
     setInterval(updateArrivalTimes, 1000);
     setInterval(function() { location.reload(); localStorage.setItem('extended', extended); }, 30000);
     extended = localStorage.getItem('extended') == "false";

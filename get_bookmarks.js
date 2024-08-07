@@ -27,6 +27,7 @@ function removeStop(stop){
     }else{
         console.log("stop not in bookmarks");
     }
+    location.reload();
 }
 function query(stop) {
     var form = document.getElementById("busStopForm");
@@ -83,15 +84,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (stops.length == 0) container.style.display = "none";
     for (var i = 0; i < stops.length; i++) {
         let stopElement = document.createElement('li');
+        let nameSpan = document.createElement('span');
         let stopSpan = document.createElement('span');
 
-        stopElement.textContent = `${stopNames[i]} `;
-        stopElement.onclick = function(stop) { return function() { query(stop); } }(stops[i]);
+        nameSpan.textContent = stopNames[i]+' ';
+        nameSpan.onclick = function(stop) { return function() { query(stop); } }(stops[i]);
         stopElement.classList.add("stop");
         stopSpan.classList.add("code")
         stopSpan.textContent = `(${stops[i]})`;
         stopSpan.onclick = function(stop) { return function() { removeStop(stop); } }(stops[i]);
+        stopElement.appendChild(nameSpan);
         stopElement.appendChild(stopSpan);
+        console.log(nameSpan, stopSpan);
         container.appendChild(stopElement);
     }
     

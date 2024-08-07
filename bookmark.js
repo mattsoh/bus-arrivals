@@ -38,7 +38,9 @@ function getStops() {
 document.addEventListener('DOMContentLoaded', function() {
     var [stops, stopNames] = getStops();
     let stop = document.getElementById('stopName').getAttribute('stop');
-    if (stops.includes(parseInt(stop))){
+    console.log(stop, stops, stops.includes(parseInt(stop)));
+    if (stops.includes(stop)){
+        console.log("hiding");
         document.getElementById('bookmark').style['display'] = "none";
     }
 });
