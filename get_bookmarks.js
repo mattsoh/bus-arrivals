@@ -17,7 +17,15 @@ function removeStop(stop){
         let index = stops.indexOf(stop);
         stops.splice(index, 1);
         stopNames.splice(index,1);
-        save(stops,stopNames);
+        if (stops.length == stops.length){
+            localStorage['stops'] = JSON.stringify(stops);
+            localStorage['stopNames'] = JSON.stringify(stopNames);
+        }else{
+            localStorage.clear();
+        }
+        console.log("saved");
+    }else{
+        console.log("stop not in bookmarks");
     }
 }
 function query(stop) {
@@ -29,7 +37,7 @@ function getNearestStops() {
     console.log("running");
     let options = {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 10000,
         maximumAge: 0
     };
     let container = document.getElementById("nearby-stops");
@@ -61,6 +69,7 @@ function getNearestStops() {
     }
     function error(err) {
         window.alert(`We couldn't determine your current location (${err.message}). Please ensure that location services are enabled on your device.`);
+        button.disabled = false;
     }
     button.disabled = true;
     navigator.geolocation.getCurrentPosition(success,error,options);

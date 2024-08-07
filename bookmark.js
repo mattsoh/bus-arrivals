@@ -14,34 +14,13 @@ function save(stops, stopNames){
 function saveStop(stop){
     var [stops, stopNames] = getStops();
     if (!stops.includes(stop)) {
-        stops.push(stop);
+        console.log(stop,toString(stop));
+        stops.push(''+stop);
         stopNames.push(document.getElementById('stopName').textContent);
         save(stops,stopNames)
     } else {
         console.log("Stop already bookmarked");
     }
-}
-
-function toggleBookmark(stop, remove) {
-    var [stops, stopNames] = getStops();
-    console.log(remove);
-    if (remove){
-        if (!stops.includes(stop)) {
-            stops.push(stop);
-            stopNames.push(document.getElementById('stopName').textContent);
-            save(stops,stopNames)
-        } else {
-            console.log("Stop already bookmarked");
-        }
-    }else {
-        if (stops.includes(stop)) {
-            let index = stops.indexOf(stop);
-            stops.splice(index, 1);
-            stopNames.splice(index,1);
-            save(stops,stopNames);
-        }
-    }
-    
 }
 function getStops() {
     let stops = localStorage['stops'];

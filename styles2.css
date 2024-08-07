@@ -55,7 +55,7 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
-#sliderContainer {
+#slider-container {
     margin-bottom: 20px;
 }
 #switch {
