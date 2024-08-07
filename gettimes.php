@@ -104,13 +104,10 @@ function getStop($stop){
     $left = 0;
     $right = count($data)-1;
     while ($left <= $right){
-        // echo $left, ' ', $right, "\n";
         $mid = round(($left+$right)/2);
-        // echo $data[$mid]["BusStopCode"], $stop, ($data[$mid]["BusStopCode"]<$stop)?"small" : "big";
         if ($data[$mid]["BusStopCode"] == $stop){
             return $data[$mid]["Description"];
         }else if ($left == $right){
-            // echo $left, $data[$mid]["BusStopCode"];
             return NULL;
         }else if ($data[$mid]["BusStopCode"] <= $stop){
             $left = $mid+1;
@@ -120,10 +117,5 @@ function getStop($stop){
     }
     return NULL;
 }
-// $services = timings("11111");
-// echo getStop("99189");
-// header('Content-Type: application/json');
-// echo json_encode($services);
-
 ?>
 

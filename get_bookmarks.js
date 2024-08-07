@@ -79,7 +79,7 @@ function getNearestStops() {
 document.addEventListener('DOMContentLoaded', function() {
     let [stops, stopNames] = getStops();
     let container = document.getElementById('bookmarks');
-    container.innerHTML = '';
+    // container.innerHTML = '';
     console.log(stops);
     if (stops.length == 0) container.style.display = "none";
     for (var i = 0; i < stops.length; i++) {

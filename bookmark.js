@@ -1,7 +1,6 @@
 function update(stop) {
     console.log(`Updating ${stop}`);
 }
-
 function save(stops, stopNames){
     if (stops.length == stops.length){
         localStorage['stops'] = JSON.stringify(stops);
@@ -36,11 +35,8 @@ function getStops() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    var [stops, stopNames] = getStops();
+    var [stops, _] = getStops();
     let stop = document.getElementById('stopName').getAttribute('stop');
     console.log(stop, stops, stops.includes(parseInt(stop)));
-    if (stops.includes(stop)){
-        console.log("hiding");
-        document.getElementById('bookmark').style['display'] = "none";
-    }
+    if (stops.includes(stop)) document.getElementById('bookmark').style['display'] = "none";
 });
