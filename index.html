@@ -19,9 +19,15 @@
             <h2>Bookmarked Stops</h2>
             <div id="bookmarked-stops"></div>
         </div>
+        <div class="nearest">
+            <h2>Nearby Stops</h2>
+            <button id="show-nearby">Show nearby stops</button>
+            <div id="nearby-stops" style="display: none;" onclick="getNearestStops()"></div>
+        </div>
     </div>
     
     <script src="get_bookmarks.js"></script>
     <script src="validstop.js"></script>
+    <script src="nearestStops.js"></script>
 </body>
 </html>

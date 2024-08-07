@@ -8,12 +8,12 @@ function getNearestStops() {
         const latitude = pos.coords.latitude;
         const longitude = pos.coords.longitude;
         
-        fetch(`/getNearestStops?lat=${latitude}&lng=${longitude}`)
+        fetch(`/getNearestStops.php?lat=${latitude}&long=${longitude}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                throw new Error('Could not connect to server' + response.statusText);
             }
-            return response.json(); // or response.text() if you expect text
+            return response.json();
         })
         .then(data => {
             console.log(data);
@@ -27,4 +27,3 @@ function getNearestStops() {
     }
     navigator.geolocation.getCurrentPosition(success,error,options);
 }
-getNearestStops();

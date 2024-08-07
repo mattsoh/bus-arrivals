@@ -10,6 +10,7 @@
                 ? "Stop " . $stop . " Arrival Times"
                 : "Invalid Bus Stop Code";
         } else {
+            http_response_code(405);
             echo "Invalid request";
         }
         ?>
