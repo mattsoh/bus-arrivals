@@ -1,4 +1,4 @@
-
+/* 
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -28,6 +28,9 @@ h2 {
     margin-bottom: 20px;
     color: #444;
     text-align: center;
+}
+p {
+    margin: 0 0;
 }
 .table-container {
     width: 100%;
@@ -148,4 +151,4 @@ input:checked + #slider:before {
 .SDA.override,
 .LSD.override {
     color: black;
-}
+} */
