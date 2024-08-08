@@ -97,7 +97,6 @@
             </table>
         </div>
     </div>
-    <script src="update.js"></script>
-    <script src="bookmark.js"></script>
+    <script src="update_arrivals.js"></script>
 </body>
 </html>
