@@ -55,8 +55,9 @@
                 <span id="slider"></span>
             </label>
         </div>
+        <a href="/">Back to home page</a>
         <div class="table-container" <?php echo (empty($services)) ? "style='display:none'" : "" ?>>
-            <table id='busTable'>
+            <table>
                 <thead>
                     <tr>
                         <th></th>
@@ -77,7 +78,7 @@
                                 }else{
                                     $accessibility = $service[$nextBus]['Feature'] == "WAB" ? "inline" : "none";
                                     echo "<td>";
-                                    echo "<span class='wobble arrival-time " . $service[$nextBus]['Load']."' mins='" . $service[$nextBus]['TimeRemaining'][0]."' secs='" . $service[$nextBus]['TimeRemaining'][1]."'>". (($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving")." </span>";
+                                    echo "<p class='wobble arrival-time " . $service[$nextBus]['Load']."' mins='" . $service[$nextBus]['TimeRemaining'][0]."' secs='" . $service[$nextBus]['TimeRemaining'][1]."'>". (($service[$nextBus]['TimeRemaining'][0] > 0) ? $service[$nextBus]['TimeRemaining'][0]." mins".$service[$nextBus]['TimeRemaining'][1] : "Arriving")." </p>";
                                     echo "<div class='extended'>";
                                     echo "<span class='".$service[$nextBus]['Load']. "'>".(($service[$nextBus]['Load'] == "SEA") ? "Seats Available" : (($service[$nextBus]['Load'] == "SDA") ? "Standing Available" : "Limited Standing")) . "</span><br>";
                                     echo (($service[$nextBus]['Type'] == "SD") ? "Single Deck" : (($service[$nextBus]['Type'] == "DD") ? "Double Deck" : "Bendy")) ."<br>";
