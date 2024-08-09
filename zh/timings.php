@@ -3,7 +3,7 @@
 <head>
     <title>
         <?php
-        include 'gettimes.php';
+        include '/gettimes.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stop = trim($_POST['busStopCode']);
             echo (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL)
@@ -16,7 +16,7 @@
         ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div>
