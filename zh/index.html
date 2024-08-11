@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SG Bus Arrival</title>
+    <title>SG 巴士到达时间</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>查看您的巴士到达时间！</h1>
             <form action="/zh/timings.php" id="busStopForm" method="post">
-                <label id="input-label" for="busStopCode">Bus Stop Code:</label>
+                <label id="input-label" for="busStopCode">巴士站代码：</label>
                 <input type="tel" id="busStopCode" name="busStopCode" maxlength="5" autocomplete="off" placeholder="bus no. goes here!">
-                <span id="error-message" class="error">Error! Please enter a 5-digit code.</span>
+                <span id="error-message" class="error">错误！请输入5位数的代码。</span>
                 <input type="submit" value="Get arrival times!" id="submit-button">
             </form>
         <div id="bookmarks">
@@ -21,7 +21,7 @@
         <div id="nearest">
             <h2>附近的站点</h2>
             <ul id="nearby-stops" style="display: none;"></ul>
-            <button id="nearby-button" onclick="getNearestStops()">Show nearby stops</button>
+            <button id="nearby-button" onclick="getNearestStops()">显示附近的站点</button>
         </div>
     </div>
     
