@@ -7,7 +7,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stop = trim($_POST['busStopCode']);
             echo (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL)
-                ? $stop 。"站到达时间"
+                ? $stop . "站到达时间" 
                 : "无效的巴士站代码";
         } else {
             http_response_code(405);

@@ -34,7 +34,7 @@ function updateArrivalTimes() {
             span.textContent = "Arriving";
         }else{
             span.classList.remove('wobble');
-            span.textContent = mins + " mins";
+            span.textContent = mins + "分钟";
         }
         
     });

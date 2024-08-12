@@ -95,7 +95,10 @@ document.getElementById('busStopForm').addEventListener('submit', function(event
         input.classList.add('input-error');
     }
 });
-
+function changeLanguage() {
+    const selectedPage = document.getElementById('language-select').value;
+    window.location.href = '/' + selectedPage;
+}
 document.addEventListener('DOMContentLoaded', function() {
     let [stops, stopNames] = getStops();
     let container = document.getElementById('bookmarks');

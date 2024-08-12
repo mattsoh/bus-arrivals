@@ -75,6 +75,10 @@ function getNearestStops() {
     button.disabled = true;
     navigator.geolocation.getCurrentPosition(success,error,options);
 }
+function changeLanguage() {
+    const selectedPage = document.getElementById('languageSelect').value;
+    window.location.href = '/' + selectedPage;
+}
 document.getElementById('busStopForm').addEventListener('submit', function(event) {
     const input = document.getElementById('busStopCode');
     const errorMessage = document.getElementById('error-message');
