@@ -3,7 +3,7 @@
 <head>
     <title>
         <?php
-        include '/gettimes.php';
+        include($_SERVER['DOCUMENT_ROOT'].'/gettimes.php');
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stop = trim($_POST['busStopCode']);
             echo (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL)
@@ -24,7 +24,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stop = trim($_POST['busStopCode']);
             if (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL) {
-                echo  $stop . "站点";
+                echo  $stop . "站";
             } else {
                 echo "无效的巴士站代码。请输入有效的代码。";
                 header("Location: /invalid.html");

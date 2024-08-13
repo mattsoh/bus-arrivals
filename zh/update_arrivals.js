@@ -31,16 +31,13 @@ function updateArrivalTimes() {
         span.setAttribute('mins', mins);
         if (mins <= 0){
             span.classList.add("wobble");
-            span.textContent = "Arriving";
+            span.textContent = "到达";
         }else{
             span.classList.remove('wobble');
             span.textContent = mins + "分钟";
         }
         
     });
-}
-function update(stop) {
-    console.log(`Updating ${stop}`);
 }
 function save(stops, stopNames){
     if (stops.length == stops.length){
