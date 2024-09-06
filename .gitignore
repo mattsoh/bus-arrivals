@@ -24,7 +24,6 @@
 /phpunit.xml
 /phpunit.xml.dist
 
-/composer.lock
 /composer.phar
 
 *.log
