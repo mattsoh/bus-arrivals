@@ -1,0 +1,15 @@
+{
+  "name": "yourname/yourproject",
+  "description": "A PHP project starting with index.html",
+  "require": {
+    "php": "^7.4 || ^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "YourNamespace\\": "src/"
+    }
+  },
+  "scripts": {
+    "start": "php -S localhost:8000 -t ./"
+  }
+}
