@@ -1,6 +1,6 @@
 {
-  "name": "yourname/yourproject",
-  "description": "A PHP project starting with index.html",
+  "name": "mattsoh/bus-arrivals",
+  "description": "Bus arrivals in Singapore",
   "require": {
     "php": "^7.4 || ^8.0"
   },
