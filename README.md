@@ -36,6 +36,17 @@ Welcome to the bus-arrivals website.
 ---
 
 ### The instructions
+
 Just enter 5-digit bus stop code (what else?).
 
 Note that this service is only available when there are actually buses operating in Singapore (obviously), so make sure you are running this program during roughly 7:00am - 12:00am (Singapore Standard Time, GMT+8).
+
+### To download, or not to download, that is the question
+
+Download the entire project and unzip it or clone it with ```git clone https://github.com/mattsoh/bus-arrivals.git```.
+
+Then run with ```php -S localhost:8080```
+
+Then navigate to localhost:8080 (or whatever other port you entered).
+
+Make sure PHP is already downloaded!
