@@ -7,9 +7,8 @@ function getStops() {
     if (stops && stopNames && stops.length == stopNames.length){
         // console.log("returning ", stops,stopNames)
         return [stops,stopNames];
-    }else{ 
-        return[[],[]];
-    }
+    }else{
+        return[[],[]];    }
 }
 function removeStop(stop){
     var [stops,stopNames] = getStops();
