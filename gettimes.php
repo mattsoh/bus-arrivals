@@ -1,6 +1,6 @@
 <?php
-list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-putenv("$key=$value");
+// list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
+// putenv("$key=$value");
 function timings($busStopCode) {
     $services = []; 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
