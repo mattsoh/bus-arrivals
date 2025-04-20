@@ -1,12 +1,12 @@
 <?php
-// list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
-// putenv("$key=$value");
+list($key, $value) = explode('=', trim(file_get_contents(__DIR__ . '/.env')), 2);
+putenv("$key=$value");
 function timings($busStopCode) {
     $services = []; 
     if (!empty($busStopCode) && is_numeric($busStopCode) && strlen($busStopCode) == 5) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=' . $busStopCode,
+            CURLOPT_URL => 'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=' . $busStopCode,
             CURLOPT_RETURNTRANSFER => true,
             // CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -83,6 +83,12 @@ function getAllData(){
             curl_close($curl);
             $data = json_decode($response_data, true);
             // echo $data;
+            // echo $skip;
+            // echo getenv("API_KEY");
+            // echo getType($data);
+            if (empty($data['value'])) {
+                break;
+            }
             $allData = array_merge($allData, $data['value']);
             $skip++;
         } while (!empty($data['value']));
@@ -91,7 +97,7 @@ function getAllData(){
             return 0;
     } catch (Exception $e) {
         throw new Exception("Error: " . $e->getMessage() . "\n");
-        echo "Error: " . $e->getMessage() . "\n";
+        echo "Oops. We had an error. Contact mattsoh@hackclub.app.\n";
         http_response_code(500);
         return -1;
     }
@@ -117,5 +123,11 @@ function getStop($stop){
     }
     return NULL;
 }
+// $res = timings(11111);
+// foreach ($res as $serviceNumber => $service) {
+//     echo "<h2>Service Number: " . $serviceNumber . "</h2>";
+//     echo "<p>Next Bus: " . json_encode($service['NextBus']) . "</p>";
+//     echo "<p>Next Bus 2: " . json_encode($service['NextBus2']) . "</p>";
+// }
 ?>
 
