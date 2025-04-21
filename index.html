@@ -17,12 +17,12 @@
             </select>
         </div>
         <h1>Find your bus arrival time!</h1>
-            <form action="timings.php" id="busStopForm" method="post">
+            <form action="timings.php" id="busStopForm" method="get">
                 <label id="input-label" for="busStopCode">Bus Stop Code:</label>
                 <input type="tel" id="busStopCode" name="busStopCode" maxlength="5" autocomplete="off" placeholder="bus no. goes here!">
                 <span id="error-message" class="error">Error! Please enter a 5-digit code.</span>
                 <input type="submit" value="Get arrival times!" id="submit-button">
-            </form>
+        </form> 
         <div id="bookmarks">
             <h2>Bookmarked Stops</h2>
         </div>
