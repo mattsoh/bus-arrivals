@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SG 巴士到达时间</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-dropdown">
+            <select id="language-select" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="zh" selected>中文</option>
+                <option value="ms">Bahasa Melayu</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+        </div>
+        <h1>查看您的巴士到达时间！</h1>
+            <form action="/timings.php" id="busStopForm" method="post">
+                <label id="input-label" for="busStopCode">巴士站代码：</label>
+                <input type="tel" id="busStopCode" name="busStopCode" maxlength="5" autocomplete="off" placeholder="请在这里填写巴士号码">
+                <span id="error-message" class="error">错误！请输入5位数的代码。</span>
+                <input type="submit" value="Get arrival times!" id="submit-button">
+            </form>
+        <div id="bookmarks">
+            <h2>已收藏的站</h2>
+        </div>
+        <div id="nearest">
+            <h2>附近的站点</h2>
+            <ul id="nearby-stops" style="display: none;"></ul>
+            <button id="nearby-button" onclick="getNearestStops()">显示附近的站点</button>
+        </div>
+    </div>
+    
+    <script src="/update_search.js"></script>
+</body>
+</html>

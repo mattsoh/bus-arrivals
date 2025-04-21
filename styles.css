@@ -1,0 +1,227 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f9;
+    color: #333;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+} 
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #444;
+    text-align: center;
+}
+#stopName {
+    font-size: 1.5em;
+    color: #555;
+    text-align: center;
+    font-weight: 400;
+}
+
+#input-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+input[type="tel"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+input[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+    display: none;
+    margin-top: 5px;
+    margin-bottom: 5px; 
+    text-align: left;
+    padding: 5px 10px;
+    border: 1px solid #d9534f;
+    border-radius: 5px;
+    background-color: #f2dede;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.input-error {
+    border-color: #d9534f;
+    background-color: #f2dede; 
+}
+.flash {
+    animation: flash-animation 0.3s ease;
+}
+@keyframes flash-animation {
+    0% { background-color: #007BFF; }
+    50% { background-color: #ffdddd; }
+    100% { background-color: #007BFF; }
+}
+.stop {
+    text-align: left;
+    cursor: pointer;
+}
+.stop:hover {
+    font-weight: bold;
+}
+.code:hover {
+    text-decoration: line-through;
+}
+#notfound {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #444;
+    text-align: center;
+}
+p {
+    margin: 0 0;
+    text-align: center;
+}
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+th {
+    background-color: #f2f2f2;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+#slider-container {
+    margin-bottom: 20px;
+}
+#switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    text-align: center;
+}
+#switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+#slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px;
+}
+#slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + #slider {
+    background-color: #007BFF;
+}
+input:checked + #slider:before {
+    transform: translateX(20px);
+}
+.wobble {
+    animation: wobble 0.5s infinite !important;
+}
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    th, td {
+        padding: 8px;
+    }
+    #sliderContainer {
+        flex-direction: column;
+    }
+    .switch {
+        width: 30px;
+        height: 15px;
+    }
+    #slider:before {
+        width: 11px;
+        height: 11px;
+        transform: translateX(0);
+    }
+    input:checked + #slider:before {
+        transform: translateX(15px);
+    }
+}
+.SEA {
+    color: green;
+}
+
+.SDA {
+    color: rgb(180, 180, 0);
+}
+.LSD {
+    color: red;
+}
+.SEA.override,
+.SDA.override,
+.LSD.override {
+    color: black;
+}
