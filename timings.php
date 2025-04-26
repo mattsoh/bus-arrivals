@@ -4,8 +4,8 @@
     <title>
         <?php
         include 'gettimes.php';
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $stop = trim($_POST['busStopCode']);
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $stop = trim($_GET['busStopCode']);
             echo (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL)
                 ? "Stop " . $stop . " Arrival Times"
                 : "Invalid Bus Stop Code";
@@ -21,8 +21,8 @@
 <body>
     <div>
         <h1><?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $stop = trim($_POST['busStopCode']);
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $stop = trim($_GET['busStopCode']);
             if (is_numeric($stop) && strlen($stop) == 5 && getStop($stop) != NULL) {
                 echo "Stop " . $stop;
             } else {
